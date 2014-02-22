@@ -21,10 +21,9 @@ let getDigits number =
           yield int (number / pown 10 i % 10) ]
 
 let newDigits : int -> DigitsString = getDigits >> List.map newDigit
-
 let createDigits = newDigits >> String.concat ""
 
-let getNearest d =
+let getNearest d = 
     [ 0..9 ]
     |> List.map newDigit
     |> List.mapi (fun i d' -> 
@@ -43,58 +42,61 @@ let getNearestMemoizedOfInt : int -> int list = memoize (newDigit >> getNearest)
 let getDigitStrings length (s : string) = 
     [ for i in 0..s.Length / 9 - 1 do
           yield s.[i * length..i * length + length - 1] ]
-          
+
 let parseDigit s = 
     match digitsTableReversed.TryGetValue s with
     | true, v -> Digit v
     | false, _ -> NonDigit s
 
-let parseDigits s : Digits =
-    getDigitStrings 9 s |> List.map parseDigit
+let parseDigits s : Digits = getDigitStrings 9 s |> List.map parseDigit
 
-let isLegible = List.forall (function Digit _ -> true | NonDigit _ -> false)
+let isLegible = 
+    List.forall (function 
+        | Digit _ -> true
+        | NonDigit _ -> false)
 
-let validChecksum ds =
-    if isLegible ds then
+let validChecksum ds = 
+    if isLegible ds then 
         ds
-        |> List.map (function Digit d -> d | NonDigit _ -> invalidOp "cannot checksum a invalid digit")
+        |> List.map (function 
+               | Digit d -> d
+               | NonDigit _ -> invalidOp "cannot checksum a invalid digit")
         |> (getNumber >> getDigits)
         |> checksum
-    else
-        false
-        
+    else false
+
 let getAlternativeNumber = getNearestMemoizedOfInt
 let getAlternativeNumbers = getDigits >> List.map getAlternativeNumber
+let getAlternativeNumbersAndSelf i = getDigits i |> List.map (fun i -> i :: getAlternativeNumber i)
 
-let getAlternativeNumbersAndSelf i = getDigits i |> List.map (fun i -> i::getAlternativeNumber i)
-
-let getValidAlternativeNumbers i =
+let getValidAlternativeNumbers i = 
     let ds = getDigits i
     getAlternativeNumbersAndSelf i
     |> cart
-    |> Seq.filter (getDiffCount ds >> (=)1)
+    |> Seq.filter (getDiffCount ds >> (=) 1)
     |> Seq.filter checksum
     |> Seq.map getNumber
-    |> Seq.filter ((<>)i)
+    |> Seq.filter ((<>) i)
     |> Seq.sort
     |> Seq.toList
 
-let asNumber = function
+let asNumber = 
+    function 
     | Digit v -> v
     | NonDigit _ -> failwith "not a valid digit"
 
-let getAmbivalences digits =
+let getAmbivalences digits = 
     digits
     |> List.map asNumber
     |> getNumber
     |> getValidAlternativeNumbers
     |> List.map (getDigits >> List.map Digit)
 
-let getAlternativesForIllegible ds =
+let getAlternativesForIllegible ds = 
     ds
-    |> List.map (function
-        | Digit n -> [n]
-        | NonDigit d -> getNearestMemoized d)
+    |> List.map (function 
+           | Digit n -> [ n ]
+           | NonDigit d -> getNearestMemoized d)
     |> cart
     |> Seq.filter (fun n -> checksum n)
     |> Seq.map (List.map Digit)

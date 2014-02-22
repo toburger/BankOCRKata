@@ -6,8 +6,10 @@ type DigitString = string
 
 and DigitsString = string list
 
-type Digit = Digit of int | NonDigit of string with
-    override self.ToString() =
+type Digit = 
+    | Digit of int
+    | NonDigit of string
+    override self.ToString() = 
         match self with
         | Digit d -> string d
         | NonDigit _ -> "?"
@@ -20,7 +22,11 @@ and Account =
     | Illegible of Digits
     | Error of Digits
     override self.ToString() = 
-        let fmtDigits ds = ds |> List.map string |> String.concat "" |> fillWithNulls 9
+        let fmtDigits ds = 
+            ds
+            |> List.map string
+            |> String.concat ""
+            |> fillWithNulls 9
         match self with
         | Valid ds -> sprintf "%s" <| fmtDigits ds
         | Ambivalent(ds, dss) -> 
