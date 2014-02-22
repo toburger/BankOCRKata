@@ -2,11 +2,11 @@
 
 open BankOCRKata.Utils
 
-type DigitString = string
+type internal DigitString = string
 
-and DigitsString = string list
+and internal DigitsString = string list
 
-type Digit = 
+type internal Digit = 
     | Digit of int
     | NonDigit of string
     override self.ToString() = 
@@ -14,7 +14,7 @@ type Digit =
         | Digit d -> string d
         | NonDigit _ -> "?"
 
-and Digits = Digit list
+and internal Digits = Digit list
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module internal Digit = 
