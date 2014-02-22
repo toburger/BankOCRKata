@@ -55,7 +55,7 @@ module internal Digit =
     let getNearestMemoizedOfInt : int -> int list = memoize (newDigit >> getNearest) id
     
     let getDigitStrings length (s : string) = 
-        [ for i in 0..s.Length / 9 - 1 do
+        [ for i in 0..s.Length / length - 1 do
               yield s.[i * length..i * length + length - 1] ]
     
     let parseDigit s = 
@@ -63,7 +63,7 @@ module internal Digit =
         | true, v -> Digit v
         | false, _ -> NonDigit s
     
-    let parseDigits s : Digits = getDigitStrings 9 s |> List.map parseDigit
+    let parseDigits length s : Digits = getDigitStrings length s |> List.map parseDigit
     
     let isLegible = 
         List.forall (function 

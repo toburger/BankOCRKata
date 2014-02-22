@@ -45,8 +45,9 @@ module AccountNumber =
         | alt :: [] -> SingleAlternative alt
         | alts -> Alternatives alts
     
-    let parse s = 
-        match parseDigits s with
+    [<CompiledName("Parse")>]
+    let parse input = 
+        match parseDigits 9 input with
         | Legible & Valid & digits -> Valid digits
         | Legible & Invalid & Ambivalences ambs & digits -> Ambivalent(digits, ambs)
         | Legible & Invalid & SingleAmbivalence amb -> Valid amb
