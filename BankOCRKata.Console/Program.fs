@@ -28,7 +28,7 @@ let main argv =
     // parse in parallel
 
     readSampleFile "sample.txt"
-    |> Seq.map (async.Return << AccountNumber.parse)
+    |> Seq.map (fun s -> async { return AccountNumber.parse s })
     |> Async.Parallel
     |> Async.RunSynchronously
     |> Seq.iter (printfn "%O")
