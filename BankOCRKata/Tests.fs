@@ -58,7 +58,7 @@ let ``Parse illegible AccountNumbers from Web Page sample`` () =
         |> should equal expected
 
 (*
-    Data form OCR Kata web page (http://codingdojo.org/cgi-bin/index.pl?KataBankOCR): 
+    Data from OCR Kata web page (http://codingdojo.org/cgi-bin/index.pl?KataBankOCR): 
 
     use case 4
                            
