@@ -1,8 +1,10 @@
-﻿// Learn more about F# at http://fsharp.net. See the 'F# Tutorial' project
-// for more guidance on F# programming.
+﻿#load "Utils.fs"
+#load "Types.fs"
+#load "Digit.fs"
+#load "AccountNumber.fs"
 
-#load "Library1.fs"
-open BankOCRKata
+open BankOCRKata.Utils
+open BankOCRKata.Types
+open BankOCRKata.Digit
 
-// Define your library scripting code here
 
