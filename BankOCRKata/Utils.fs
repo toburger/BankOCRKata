@@ -1,4 +1,4 @@
-﻿module BankOCRKata.Utils
+﻿module internal BankOCRKata.Utils
 
 let fillWithNulls length s = 
     System.String(sprintf "%*s" length s

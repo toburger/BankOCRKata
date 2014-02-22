@@ -17,7 +17,7 @@ type Digit =
 and Digits = Digit list
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
-module Digit = 
+module internal Digit = 
     let digitsTable : DigitsString = 
         [ " _ | ||_|"; "     |  |"; " _  _||_ "; " _  _| _|"; "   |_|  |"; " _ |_  _|"; " _ |_ |_|"; " _   |  |"; 
           " _ |_||_|"; " _ |_| _|" ]

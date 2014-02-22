@@ -27,7 +27,7 @@ let ``Create Digits from number`` () =
 [<InlineData(298749824, "290749824")>]
 [<InlineData(131231212, "ERR 131231212")>]
 let ``Parse legible AccountNumbers`` (input, expected) =
-    parse (createDigits input)
+    parseToString (createDigits input)
     |> should equal expected
 
 [<Theory>]
@@ -41,7 +41,7 @@ let ``Parse legible AccountNumbers`` (input, expected) =
 [<InlineData(999999999, "999999999 AMB ['899999999', '993999999', '999959999']")>]
 [<InlineData(490067715, "490067715 AMB ['490067115', '490067719', '490867715']")>]
 let ``Parse legible AccountNumbers from Web Page sample`` (input, expected) =
-    parse (createDigits input)
+    parseToString (createDigits input)
     |> should equal expected
 
 [<Fact>]
@@ -53,7 +53,7 @@ let ``Parse illegible AccountNumbers from Web Page sample`` () =
     ]
 
     for (input, expected) in inputs do
-        parse input
+        parseToString input
         |> should equal expected
 
 (*

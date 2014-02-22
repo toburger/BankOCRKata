@@ -25,27 +25,27 @@ type AccountNumber =
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module AccountNumber = 
-    let (|Valid|Invalid|) digits = 
+    let private (|Valid|Invalid|) digits = 
         if validChecksum digits then Valid
         else Invalid
     
-    let (|Legible|Illegible|) digits = 
+    let private (|Legible|Illegible|) digits = 
         if isLegible digits then Legible
         else Illegible
     
-    let (|NoAmbivalences|SingleAmbivalence|Ambivalences|) digits = 
+    let private (|NoAmbivalences|SingleAmbivalence|Ambivalences|) digits = 
         match getAmbivalences digits with
         | [] -> NoAmbivalences
         | amb :: [] -> SingleAmbivalence amb
         | ambs -> Ambivalences(ambs)
     
-    let (|NoAlternatives|SingleAlternative|Alternatives|) digits = 
+    let private (|NoAlternatives|SingleAlternative|Alternatives|) digits = 
         match getAlternativesForIllegible digits with
         | [] -> NoAlternatives
         | alt :: [] -> SingleAlternative alt
         | alts -> Alternatives alts
     
-    let parseAccount s = 
+    let parse s = 
         match parseDigits s with
         | Legible & Valid & digits -> Valid digits
         | Legible & Invalid & Ambivalences ambs & digits -> Ambivalent(digits, ambs)
@@ -55,4 +55,4 @@ module AccountNumber =
         | Illegible & Alternatives alts & digits -> Ambivalent(digits, alts)
         | Illegible & NoAlternatives & digits -> Illegible digits
     
-    let parse = parseAccount >> sprintf "%O"
+    let parseToString = parse >> sprintf "%O"
