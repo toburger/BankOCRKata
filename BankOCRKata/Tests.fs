@@ -1,6 +1,5 @@
 ﻿module BankOCRKata.Tests
 
-open BankOCRKata.Types
 open BankOCRKata.Digit
 open BankOCRKata.AccountNumber
 open Xunit

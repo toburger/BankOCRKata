@@ -63,7 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Utils.fs" />
-    <Compile Include="Types.fs" />
     <Compile Include="Digit.fs" />
     <Compile Include="AccountNumber.fs" />
     <Compile Include="Tests.fs" />
