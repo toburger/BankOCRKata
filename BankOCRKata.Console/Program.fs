@@ -2,21 +2,26 @@
 open System.IO
 
 let readSampleFile filename = 
-    seq { 
-        let lines = File.ReadAllLines filename
+    let lines = File.ReadLines filename
+
+    let digitLineSize = 4
         
-        let getDigitChunks (s : string) = 
-            [ for i in [ 0..3..78 ] -> s.[i..i + 2] ]
+    let getDigitChunks (s : string) = 
+        [ for i in [ 0..3..78 ] -> s.[i..i + 2] ]
         
-        let getDigits (xs : string list) = 
-            [ for i in [ 0..9 - 1 ] -> xs.[i] + xs.[i + 9] + xs.[i + 18] ]
+    let getDigits (xs : string list) = 
+        [ for i in [ 0..9 - 1 ] -> xs.[i] + xs.[i + 9] + xs.[i + 18] ]
         
-        for i in [ 0..4..lines.Length - 1 ] -> 
-            lines.[i] + lines.[i + 1] + lines.[i + 2]
-            |> getDigitChunks
-            |> getDigits
-            |> String.concat ""
-    }
+    lines
+    |> Seq.windowed digitLineSize
+    |> Seq.zip (Seq.initInfinite id)
+    |> Seq.filter (fun (i, _) -> i % digitLineSize = 0)
+    |> Seq.map (fun (_, window) ->
+        window.[0] + window.[1] + window.[2]
+        |> getDigitChunks
+        |> getDigits
+        |> String.concat ""
+    )
 
 [<EntryPoint>]
 let main argv = 
