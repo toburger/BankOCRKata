@@ -31,10 +31,6 @@ module internal Digit =
         if (i < 0 || i > 9) then invalidArg "i" "between 1 and 9"
         digitsTable.[i]
     
-    let getDigits number = 
-        [ for i = int (floor (log10 (float number))) downto 0 do
-              yield int (number / pown 10 i % 10) ]
-    
     let newDigits : int -> DigitsString = getDigits >> List.map newDigit
     let createDigits = newDigits >> String.concat ""
     

@@ -6,6 +6,55 @@ open Xunit
 open Xunit.Extensions
 open FsUnit.Xunit
 
+module UtilTests =
+    [<Theory>]
+    [<InlineData("123", 8, "00000123")>]
+    [<InlineData("",    8, "00000000")>]
+    [<InlineData("123", 1, "123")>]
+    let ``Test Utils.fillWithNulls`` (input, length, expected) =
+        input
+        |> Utils.fillWithNulls length
+        |> should equal expected
+
+//    [<Theory>]
+//    [<InlineData(12345, [|1;2;3;4;5|])>]
+//    [<InlineData(0123,  [|1;2;3|])>]
+//    let ``Test Utils.getDigits`` (input: int, expected: int list) =
+//        input
+//        |> Utils.getDigits
+//        |> should equal expected
+//
+//    [<Theory>]
+//    [<InlineData([|1;2;3;4;5|], 12345)>]
+//    [<InlineData([|0;1;2;3|],   123)>]
+//    let ``Test Utisl.getNumber`` (input: int list, expected: int) =
+//        input
+//        |> Utils.getNumber
+//        |> should equal expected
+
+    [<Fact>]
+    let ``Test Utils.cart`` () =
+        [[1;2];[3]]
+        |> Utils.cart
+        |> List.ofSeq
+        |> should equal [[1;3];[2;3]]
+
+    [<Fact>]
+    let ``Test Utils.getDiffCount`` () =
+        [1;2;3;4]
+        |> Utils.getDiffCount [1;2;4;4]
+        |> should equal 1
+
+    [<Theory>]
+    [<InlineData(456785876, true)>]
+    [<InlineData(543214567, true)>]
+    [<InlineData(987654321, false)>]
+    let ``Test Utils.checksum`` (input, expected) =
+        input
+        |> Utils.getDigits
+        |> Utils.checksum
+        |> should equal expected
+
 [<Theory>]
 [<InlineData(0, " _ | ||_|")>]
 [<InlineData(1, "     |  |")>]

@@ -10,6 +10,10 @@ let fillWithNulls length s =
 let memoize onAdd = 
     let dict = System.Collections.Concurrent.ConcurrentDictionary<'key, 'value>(HashIdentity.Structural)
     fun x -> dict.GetOrAdd(x, System.Func<_, _>(onAdd))
+    
+let getDigits number = 
+    [ for i = int (floor (log10 (float number))) downto 0 do
+            yield int (number / pown 10 i % 10) ]
 
 let checksum is = 
     let csum = 
@@ -57,10 +61,11 @@ let cart4 sequences =
     Seq.fold step (Seq.singleton Seq.empty) sequences
 
 let cart = 
-    //    cart1
+    //cart1
     cart2
-//    cart3 >> Seq.map Seq.toList
-//    cart4 >> Seq.map Seq.toList
+    //cart3 >> Seq.map Seq.toList
+    //cart4 >> Seq.map Seq.toList
+
 let flip f x y = f y x
 
 let getDiffCount xs ys = 
