@@ -49,7 +49,7 @@ let ``Parse legible AccountNumbers from Web Page sample`` (input, expected) =
 let ``Parse illegible AccountNumbers from Web Page sample`` () =
     let inputs = [
         "    _|  |" + createDigits 23456789,                 "123456789"
-        createDigits 0 + "   | ||_|" + createDigits 0000051, "000000051" // not correctly created, but in this case it makes no difference
+        newDigit 0 + "   | ||_|" + newDigit 0 + newDigit 0 + newDigit 0 + newDigit 0 + newDigit 0 + createDigits 51, "000000051"
         createDigits 49086771 + " _  _  _|",                 "490867715"
     ]
 
