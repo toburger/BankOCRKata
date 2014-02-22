@@ -30,8 +30,8 @@ let main argv =
     //readSampleFile "sample.txt"
     //|> Seq.map AccountNumber.parse
     //|> Seq.iter (printfn "%O")
-    // parse in parallel
 
+    // parse in parallel
     readSampleFile "sample.txt"
     |> Seq.map (fun s -> async { return AccountNumber.parse s })
     |> Async.Parallel
