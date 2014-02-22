@@ -8,12 +8,12 @@ let fillWithNulls length s =
                   |> Seq.toArray)
 
 let inline memoize onAdd onGet = 
-    let dict = System.Collections.Generic.Dictionary<_, _>(HashIdentity.Structural)
+    let dict = System.Collections.Concurrent.ConcurrentDictionary<_, _>(HashIdentity.Structural)
     fun x -> 
         if dict.ContainsKey x then onGet dict.[x]
         else 
             let v = onAdd x
-            dict.Add(x, v)
+            dict.TryAdd(x, v) |> ignore
             v
 
 let checksum is = 
