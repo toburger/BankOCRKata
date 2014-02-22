@@ -51,8 +51,8 @@ module internal Digit =
         |> List.filter (fun (_, c) -> c = 8)
         |> List.map fst
     
-    let getNearestMemoized : string -> int list = memoize getNearest id
-    let getNearestMemoizedOfInt : int -> int list = memoize (newDigit >> getNearest) id
+    let getNearestMemoized : string -> int list = memoize getNearest
+    let getNearestMemoizedOfInt : int -> int list = memoize (newDigit >> getNearest)
     
     let getDigitStrings length (s : string) = 
         [ for i in 0..s.Length / length - 1 do

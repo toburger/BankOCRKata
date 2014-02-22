@@ -7,14 +7,9 @@ let fillWithNulls length s =
                          | c -> c)
                   |> Seq.toArray)
 
-let inline memoize onAdd onGet = 
-    let dict = System.Collections.Concurrent.ConcurrentDictionary<_, _>(HashIdentity.Structural)
-    fun x -> 
-        if dict.ContainsKey x then onGet dict.[x]
-        else 
-            let v = onAdd x
-            dict.TryAdd(x, v) |> ignore
-            v
+let memoize onAdd = 
+    let dict = System.Collections.Concurrent.ConcurrentDictionary<'key, 'value>(HashIdentity.Structural)
+    fun x -> dict.GetOrAdd(x, System.Func<_, _>(onAdd))
 
 let checksum is = 
     let csum = 
