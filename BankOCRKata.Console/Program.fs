@@ -1,7 +1,7 @@
 ﻿open BankOCRKata
 open System.IO
 
-let readSampleFile filename = 
+let readSampleFile filename = seq {
     let lines = File.ReadLines filename
 
     let digitLineSize = 4
@@ -12,7 +12,7 @@ let readSampleFile filename =
     let getDigits (xs : string list) = 
         [ for i in [ 0..9 - 1 ] -> xs.[i] + xs.[i + 9] + xs.[i + 18] ]
         
-    lines
+    yield! lines
     |> Seq.chunk digitLineSize
     |> Seq.map (fun window ->
         window.[0] + window.[1] + window.[2]
@@ -20,6 +20,7 @@ let readSampleFile filename =
         |> getDigits
         |> String.concat ""
     )
+}
 
 [<EntryPoint>]
 let main argv = 
