@@ -32,10 +32,13 @@ let loadWindow() =
 
     window.results.Drop.Add(fun e ->
         if e.Data.GetDataPresent(DataFormats.FileDrop) then
-            let files = e.Data.GetData(DataFormats.FileDrop) :?> string[]
+            window.progress.IsActive <- true
             window.results.Items.Clear()
+            let files = e.Data.GetData(DataFormats.FileDrop) :?> string[]
             for file in files do
-                parse (fun res -> window.results.Items.Add(res) |> ignore) file)
+                parse (fun res -> window.results.Items.Add(res) |> ignore) file
+            window.progress.IsActive <- false
+    )
 
     window.Root
 
