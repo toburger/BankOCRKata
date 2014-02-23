@@ -3,8 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="" Height="450" Width="750">
     <DockPanel>
-        <Button Content="Parse File" x:Name="parse" DockPanel.Dock="Top" FontSize="14" Margin="4"/>
-        <ListView x:Name="results" FontFamily="Consolas">
+        <Label DockPanel.Dock="Bottom" Content="Please drop a file onto the target above."/>
+        <ListView x:Name="results" FontFamily="Consolas" AllowDrop="True">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Original}" Width="250"/>

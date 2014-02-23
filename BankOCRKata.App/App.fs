@@ -13,25 +13,30 @@ type Result =
 
 let loadWindow() = 
     let window = MainWindow()
+
     let invokeOnUI f = window.Root.Dispatcher.BeginInvoke(Action(f)) |> ignore
-    window.parse.Click.Add(fun _ -> 
-        window.results.Items.Clear()
-        Utils.readSampleFile "sample.txt"
-//        |> Seq.iter (fun (orig, s) ->
-//            let an = BankOCRKata.AccountNumber.parse s
-//            let res = { Original = orig; Parsed = an }
-//            window.results.Items.Add res |> ignore
-//        ))
+
+    let parse onAdd file =
+        Utils.readSampleFile file
         |> Seq.map (fun res -> 
             let (orig, s) = res
             async {
                 let an = BankOCRKata.AccountNumber.parse s
-                let res = { Original = orig; Parsed = an }
-                invokeOnUI (fun _ -> window.results.Items.Add(res) |> ignore)
+                invokeOnUI (fun _ -> onAdd({ Original = orig; Parsed = an }))
             })
         |> Async.Parallel
         |> Async.RunSynchronously
-        |> ignore)
+        |> ignore
+
+    window.results.DragEnter.Add(fun e -> e.Effects <- DragDropEffects.Copy)
+
+    window.results.Drop.Add(fun e ->
+        if e.Data.GetDataPresent(DataFormats.FileDrop) then
+            let files = e.Data.GetData(DataFormats.FileDrop) :?> string[]
+            window.results.Items.Clear()
+            for file in files do
+                parse (fun res -> window.results.Items.Add(res) |> ignore) file)
+
     window.Root
 
 [<STAThread>]
