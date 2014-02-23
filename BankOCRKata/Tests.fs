@@ -6,6 +6,10 @@ open Xunit
 open Xunit.Extensions
 open FsUnit.Xunit
 
+/// Helfer-Funktion, um ein array<'a * 'b> in ein array<array<obj>> (oder obj[][]) umzuwandeln
+let inline toTheoryData(seq: #seq<'a * 'b>): obj[][] =
+    seq |> Seq.map (fun (a, b) -> [| box a; box b |]) |> Seq.toArray
+
 module UtilTests =
     [<Theory>]
     [<InlineData("123", 8, "00000123")>]
@@ -16,21 +20,29 @@ module UtilTests =
         |> Utils.fillWithNulls length
         |> should equal expected
 
-//    [<Theory>]
-//    [<InlineData(12345, [|1;2;3;4;5|])>]
-//    [<InlineData(0123,  [|1;2;3|])>]
-//    let ``Test Utils.getDigits`` (input: int, expected: int list) =
-//        input
-//        |> Utils.getDigits
-//        |> should equal expected
-//
-//    [<Theory>]
-//    [<InlineData([|1;2;3;4;5|], 12345)>]
-//    [<InlineData([|0;1;2;3|],   123)>]
-//    let ``Test Utisl.getNumber`` (input: int list, expected: int) =
-//        input
-//        |> Utils.getNumber
-//        |> should equal expected
+    let numberToDigits =
+        toTheoryData
+            [ 12345, [1;2;3;4;5]
+              0123,  [1;2;3] ]
+
+    [<Theory>]
+    [<PropertyData("numberToDigits")>]
+    let ``Test Utils.getDigits`` (input: int, expected: int list) =
+        input
+        |> Utils.getDigits
+        |> should equal expected
+
+    let digitsToNumber =
+        toTheoryData
+            [ [1;2;3;4;5], 12345
+              [0;1;2;3],   123 ]
+
+    [<Theory>]
+    [<PropertyData("digitsToNumber")>]
+    let ``Test Utils.getNumber`` (input: int list, expected: int) =
+        input
+        |> Utils.getNumber
+        |> should equal expected
 
     [<Fact>]
     let ``Test Utils.cart`` () =
