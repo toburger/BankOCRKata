@@ -1,5 +1,7 @@
 ﻿module internal BankOCRKata.Utils
 
+[<Measure>] type d
+
 let fillWithNulls length s = 
     System.String(sprintf "%*s" length s
                   |> Seq.map (function 
@@ -13,17 +15,17 @@ let memoize onAdd =
     
 let getDigits number = 
     [ for i = int (floor (log10 (float number))) downto 0 do
-            yield int (number / pown 10 i % 10) ]
+            yield int (number / pown 10 i % 10) * 1<d> ]
 
-let checksum is = 
+let checksum (is: int<d> list) = 
     let csum = 
         is
         |> List.rev
         |> List.mapi (fun i d -> (i + 1) * d)
         |> List.sum
-    csum % 11 = 0
+    (csum / 1<d>) % 11 = 0
 
-let getNumber ns = List.foldBack (fun d (i, s) -> i + 1, s + pown 10 i * d) ns (0, 0) |> snd
+let getNumber (ns: int<d> list) = List.foldBack (fun d (i, s) -> i + 1, s + pown 10 i * (d / 1<d>)) ns (0, 0) |> snd
 
 let rec cart1 nll = 
     let f0 n = 

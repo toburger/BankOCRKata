@@ -1,5 +1,6 @@
 ﻿module BankOCRKata.Tests
 
+open BankOCRKata.Utils
 open BankOCRKata.Digit
 open BankOCRKata.AccountNumber
 open Xunit
@@ -22,8 +23,8 @@ module UtilTests =
 
     let numberToDigits =
         toTheoryData
-            [ 12345, [1;2;3;4;5]
-              0123,  [1;2;3] ]
+            [ 12345, [1<d>;2<d>;3<d>;4<d>;5<d>]
+              0123,  [1<d>;2<d>;3<d>] ]
 
     [<Theory>]
     [<PropertyData("numberToDigits")>]
@@ -34,12 +35,12 @@ module UtilTests =
 
     let digitsToNumber =
         toTheoryData
-            [ [1;2;3;4;5], 12345
-              [0;1;2;3],   123 ]
+            [ [1<d>;2<d>;3<d>;4<d>;5<d>], 12345
+              [0<d>;1<d>;2<d>;3<d>],      123 ]
 
     [<Theory>]
     [<PropertyData("digitsToNumber")>]
-    let ``Test Utils.getNumber`` (input: int list, expected: int) =
+    let ``Test Utils.getNumber`` (input: int<d> list, expected: int) =
         input
         |> Utils.getNumber
         |> should equal expected
@@ -109,7 +110,7 @@ let ``Parse legible AccountNumbers from Web Page sample`` (input, expected) =
 let ``Parse illegible AccountNumbers from Web Page sample`` () =
     let inputs = [
         "    _|  |" + createDigits 23456789,                 "123456789"
-        newDigit 0 + "   | ||_|" + newDigit 0 + newDigit 0 + newDigit 0 + newDigit 0 + newDigit 0 + createDigits 51, "000000051"
+        newDigit 0<d> + "   | ||_|" + newDigit 0<d> + newDigit 0<d> + newDigit 0<d> + newDigit 0<d> + newDigit 0<d> + createDigits 51, "000000051"
         createDigits 49086771 + " _  _  _|",                 "490867715"
     ]
 

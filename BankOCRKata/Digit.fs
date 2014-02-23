@@ -7,7 +7,7 @@ type internal DigitString = string
 and internal DigitsString = string list
 
 type internal Digit = 
-    | Digit of int
+    | Digit of int<d>
     | NonDigit of string
     override self.ToString() = 
         match self with
@@ -27,16 +27,16 @@ module internal Digit =
         |> List.mapi (fun i d -> (d : DigitString), i)
         |> dict
     
-    let newDigit i = 
-        if (i < 0 || i > 9) then invalidArg "i" "between 1 and 9"
-        digitsTable.[i]
+    let newDigit (i: int<d>) = 
+        if (i < 0<d> || i > 9<d>) then invalidArg "i" "between 1 and 9"
+        digitsTable.[i / 1<d>]
     
     let newDigits : int -> DigitsString = getDigits >> List.map newDigit
     let createDigits = newDigits >> String.concat ""
     
     let getNearest d = 
         [ 0..9 ]
-        |> List.map newDigit
+        |> List.map (((*)1<d>) >> newDigit)
         |> List.mapi (fun i d' -> 
                i, 
                d
@@ -45,10 +45,10 @@ module internal Digit =
                |> Seq.filter (fun b -> b = true)
                |> Seq.sumBy (fun b -> 1))
         |> List.filter (fun (_, c) -> c = 8)
-        |> List.map fst
+        |> List.map (fst >> ((*)1<d>))
     
-    let getNearestMemoized : string -> int list = memoize getNearest
-    let getNearestMemoizedOfInt : int -> int list = memoize (newDigit >> getNearest)
+    let getNearestMemoized : string -> int<d> list = memoize getNearest
+    let getNearestMemoizedOfInt : int<d> -> int<d> list = memoize (newDigit >> getNearest)
     
     let getDigitStrings length (s : string) = 
         [ for i in 0..s.Length / length - 1 do
@@ -56,7 +56,7 @@ module internal Digit =
     
     let parseDigit s = 
         match digitsTableReversed.TryGetValue s with
-        | true, v -> Digit v
+        | true, v -> Digit (v * 1<d>)
         | false, _ -> NonDigit s
     
     let parseDigits length s : Digits = getDigitStrings length s |> List.map parseDigit
@@ -96,7 +96,7 @@ module internal Digit =
         | Digit v -> v
         | NonDigit _ -> failwith "not a valid digit"
     
-    let getAmbivalences digits = 
+    let getAmbivalences digits: Digit list list = 
         digits
         |> List.map asNumber
         |> getNumber
