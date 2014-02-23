@@ -13,10 +13,8 @@ let readSampleFile filename =
         [ for i in [ 0..9 - 1 ] -> xs.[i] + xs.[i + 9] + xs.[i + 18] ]
         
     lines
-    |> Seq.windowed digitLineSize
-    |> Seq.zip (Seq.initInfinite id)
-    |> Seq.filter (fun (i, _) -> i % digitLineSize = 0)
-    |> Seq.map (fun (_, window) ->
+    |> Seq.chunk digitLineSize
+    |> Seq.map (fun window ->
         window.[0] + window.[1] + window.[2]
         |> getDigitChunks
         |> getDigits
