@@ -7,7 +7,7 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BankOCRKata", "BankOCRKata\
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BankOCRKata.Console", "BankOCRKata.Console\BankOCRKata.Console.fsproj", "{A8B779BB-33B4-4D20-BD2C-7E8E8AF552FD}"
 EndProject
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BankOCRKata.App", "BankOCRKata.App\BankOCRKata.App\BankOCRKata.App.fsproj", "{405F3B5A-B2B2-4121-8937-50F7A430A2D8}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BankOCRKata.App", "BankOCRKata.App\BankOCRKata.App.fsproj", "{405F3B5A-B2B2-4121-8937-50F7A430A2D8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

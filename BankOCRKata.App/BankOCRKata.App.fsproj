@@ -84,7 +84,9 @@
     <Reference Include="UIAutomationProvider" />
     <Reference Include="UIAutomationTypes" />
     <Reference Include="WindowsBase" />
-    <ProjectReference Include="..\..\BankOCRKata\BankOCRKata.fsproj">
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BankOCRKata\BankOCRKata.fsproj">
       <Name>BankOCRKata</Name>
       <Project>{d05cb8f1-800f-45a6-bfda-5dcfa15d6f7f}</Project>
       <Private>True</Private>
