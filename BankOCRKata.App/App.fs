@@ -36,7 +36,10 @@ let loadWindow() =
             window.results.Items.Clear()
             let files = e.Data.GetData(DataFormats.FileDrop) :?> string[]
             for file in files do
-                parse (fun res -> window.results.Items.Add(res) |> ignore) file
+                try
+                    parse (fun res -> window.results.Items.Add(res) |> ignore) file
+                with _ ->
+                    MessageBox.Show(window.Root, "Error while parsing the file.") |> ignore
             window.progress.IsActive <- false
     )
 
