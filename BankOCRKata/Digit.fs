@@ -36,7 +36,7 @@ module internal Digit =
     
     let getNearest d = 
         [ 0..9 ]
-        |> List.map (((*)1<d>) >> newDigit)
+        |> List.map (LanguagePrimitives.Int32WithMeasure >> newDigit)
         |> List.mapi (fun i d' -> 
                i, 
                d
@@ -45,7 +45,7 @@ module internal Digit =
                |> Seq.filter (fun b -> b = true)
                |> Seq.sumBy (fun b -> 1))
         |> List.filter (fun (_, c) -> c = 8)
-        |> List.map (fst >> ((*)1<d>))
+        |> List.map (fst >> LanguagePrimitives.Int32WithMeasure<d>)
     
     let getNearestMemoized : string -> int<d> list = memoize getNearest
     let getNearestMemoizedOfInt : int<d> -> int<d> list = memoize (newDigit >> getNearest)
@@ -56,7 +56,7 @@ module internal Digit =
     
     let parseDigit s = 
         match digitsTableReversed.TryGetValue s with
-        | true, v -> Digit (v * 1<d>)
+        | true, v -> Digit (LanguagePrimitives.Int32WithMeasure v)
         | false, _ -> NonDigit s
     
     let parseDigits length s : Digits = getDigitStrings length s |> List.map parseDigit
