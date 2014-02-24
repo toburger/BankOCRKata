@@ -31,7 +31,9 @@ let loadWindow() =
 
     window.results.DragEnter.Add(fun e -> e.Effects <- DragDropEffects.Copy)
 
-    window.results.Drop.Add(fun e ->
+    let asyncShowMessage title message = window.Root.ShowMessageAsync(title, message) |> Async.AwaitTask |> Async.Ignore
+
+    window.results.Drop.Add(fun e -> Async.StartImmediate <| async {
         if e.Data.GetDataPresent(DataFormats.FileDrop) then
             window.progress.IsActive <- true
             window.results.Items.Clear()
@@ -40,9 +42,9 @@ let loadWindow() =
                 try
                     parse (fun res -> window.results.Items.Add(res) |> ignore) file
                 with _ ->
-                    window.Root.ShowMessageAsync("Error", sprintf "Error while parsing the file: %s." file) |> ignore
+                    do! asyncShowMessage "Error" (sprintf "Error while parsing the file: %s." file)
             window.progress.IsActive <- false
-    )
+    })
 
     window.Root
 
