@@ -25,7 +25,8 @@ let loadWindow() =
                 invokeOnUI (fun _ -> onAdd({ Original = orig; Parsed = an }))
             })
         |> Async.Parallel
-        |> Async.RunSynchronously
+        |> Async.Ignore
+        |> Async.StartImmediate
         |> ignore
 
     window.results.DragEnter.Add(fun e -> e.Effects <- DragDropEffects.Copy)
