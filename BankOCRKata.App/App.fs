@@ -48,9 +48,27 @@ let loadWindow() =
         |> Async.Parallel
         |> Async.Ignore
 
-    self.DragEnter.Add(fun e -> e.Effects <- DragDropEffects.Copy)
+    self.DragEnter.Add(fun e -> 
+        e.Effects <- DragDropEffects.Copy
+        if e.Data.GetDataPresent(DataFormats.FileDrop) then 
+            let file = (e.Data.GetData(DataFormats.FileDrop) :?> string []).[0]
+            window.preview.Content <- null
+            window.preview.Visibility <- Visibility.Visible
+            async { 
+                let preview = Utils.readPreviewOfFile 11 file
+                self.InvokeOnUI
+                    (fun _ -> window.preview.Content <- TextBlock(Text = preview,
+                                                                  Foreground = window.preview.Foreground,
+                                                                  TextWrapping = TextWrapping.NoWrap,
+                                                                  FontFamily = Media.FontFamily("Consolas")))
+            }
+            |> Async.Start)
+
+    self.DragLeave.Add(fun e -> window.preview.Visibility <- Visibility.Collapsed)
 
     self.Drop.Add(fun e -> Async.StartImmediate <| async {
+        window.preview.Visibility <- Visibility.Collapsed
+
         if e.Data.GetDataPresent(DataFormats.FileDrop) then
             window.results.Items.Clear()
             let files = e.Data.GetData(DataFormats.FileDrop) :?> string []

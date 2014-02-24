@@ -14,15 +14,20 @@
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Controls:MetroWindow.Resources>
-    <DockPanel>
-        <Label DockPanel.Dock="Bottom" Content="Please drop a file onto the target above."/>
-        <ListView x:Name="results" FontFamily="Consolas" AllowDrop="True">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Original}" Width="250"/>
-                    <GridViewColumn Header="Parsed" DisplayMemberBinding="{Binding Parsed}" Width="450"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
-    </DockPanel>
+    <Grid>
+        <DockPanel>
+            <Label DockPanel.Dock="Bottom" Content="Please drop a file onto the target above."/>
+            <ListView x:Name="results" FontFamily="Consolas" AllowDrop="True">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Original}" Width="250"/>
+                        <GridViewColumn Header="Parsed" DisplayMemberBinding="{Binding Parsed}" Width="450"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </DockPanel>
+        <Controls:Tile x:Name="preview" IsHitTestVisible="False" Width="200" Height="200"
+                       VerticalContentAlignment="Top" Visibility="Collapsed" Title="preview">
+        </Controls:Tile>
+    </Grid>
 </Controls:MetroWindow>

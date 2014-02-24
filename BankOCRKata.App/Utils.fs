@@ -39,3 +39,8 @@ let readSampleFile filename = seq {
         |> String.concat ""
     )
 }
+
+let readPreviewOfFile lineCount file =
+    System.IO.File.ReadLines(file)
+    |> Seq.truncate lineCount
+    |> String.concat "\n"
