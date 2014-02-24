@@ -18,8 +18,7 @@ let loadWindow() =
 
     let parse onAdd file =
         Utils.readSampleFile file
-        |> Seq.map (fun res -> 
-            let (orig, s) = res
+        |> Seq.map (fun (orig, s) ->
             async {
                 let an = BankOCRKata.AccountNumber.parse s
                 invokeOnUI (fun _ -> onAdd({ Original = orig; Parsed = an }))
