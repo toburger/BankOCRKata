@@ -1,17 +1,35 @@
 ﻿module MainApp
 
 open System
+open System.Collections.ObjectModel
+open System.ComponentModel
 open System.Windows
 open System.Windows.Controls
+open System.Windows.Data
 open FSharpx
 open MahApps.Metro.Controls
 open MahApps.Metro.Controls.Dialogs
 
 type MainWindow = XAML< "MainWindow.xaml" >
 
-type Result = 
+[<CustomComparison; CustomEquality>]
+type Result =
     { Original : string
       Parsed : BankOCRKata.AccountNumber }
+    interface IComparable with
+        member self.CompareTo(other) =
+            let res =
+                match other with
+                | :? Result as other -> compare self.Parsed other.Parsed
+                | _ -> -1
+            res
+    override self.Equals(other) =
+        let res =
+            match other with
+            | :? Result as other -> self.Original = other.Original && self.Parsed = other.Parsed
+            | _ -> false
+        res
+    override self.GetHashCode() = hash self.Original ^^^ hash self.Parsed
 
 type MetroWindow with
     
@@ -39,6 +57,11 @@ let loadWindow() =
     let window = MainWindow()
 
     let self = window.Root
+
+    let collection = ObservableCollection()
+    window.results.ItemsSource <- collection
+    let view = CollectionViewSource.GetDefaultView(window.results.ItemsSource) :?> CollectionView
+    view.SortDescriptions.Add(SortDescription());
     
     let parse onAdd file =
 
@@ -86,14 +109,14 @@ let loadWindow() =
         window.preview.Visibility <- Visibility.Collapsed
 
         if e.Data.GetDataPresent(DataFormats.FileDrop) then
-            window.results.Items.Clear()
+            collection.Clear()
             let files = e.Data.GetData(DataFormats.FileDrop) :?> string []
             let! progress = self.AsyncShowProgress("just a second!", "")
             for file in files do
                 try 
                     progress.SetProgress(0.5)
                     progress.SetMessage(sprintf "I'm parsing the file: %s" file)
-                    do! parse (fun res -> window.results.Items.Add(res) |> ignore) file
+                    do! parse (fun res -> collection.Add(res) |> ignore) file
                     do! Async.Sleep 500
                 with _ ->
                     do! Async.Sleep 500
