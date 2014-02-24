@@ -4,6 +4,7 @@ open System
 open System.Windows
 open System.Windows.Controls
 open FSharpx
+open MahApps.Metro.Controls.Dialogs
 
 type MainWindow = XAML< "MainWindow.xaml" >
 
@@ -39,7 +40,7 @@ let loadWindow() =
                 try
                     parse (fun res -> window.results.Items.Add(res) |> ignore) file
                 with _ ->
-                    MessageBox.Show(window.Root, "Error while parsing the file.") |> ignore
+                    window.Root.ShowMessageAsync("Error", sprintf "Error while parsing the file: %s." file) |> ignore
             window.progress.IsActive <- false
     )
 
