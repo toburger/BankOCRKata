@@ -80,7 +80,6 @@ let loadWindow() =
                 onAdd { Original = orig; Parsed = an }
             })
         |> Async.Parallel
-        |> Async.Ignore
 
     let setPosition (e: DragEventArgs) =
         let pos = e.GetPosition(window.previewCanvas)
@@ -118,7 +117,8 @@ let loadWindow() =
                 try
 //                    progress.SetProgress(0.5)
 //                    progress.SetMessage(sprintf "I'm parsing the file: %s" file)
-                    do! parse (fun res -> self.InvokeOnUI(fun _ -> collection.Add res)) file
+                    let! res = parse (fun res -> self.InvokeOnUI(fun _ -> collection.Add res)) file
+                    do! self.AsyncShowMessage("yeeehaw!", sprintf "%d Account numbers where parsed." res.Length)
 //                    do! Async.Sleep 500
                 with _ ->
 //                    do! Async.Sleep 500
@@ -126,6 +126,11 @@ let loadWindow() =
                     do! self.AsyncShowMessage("uuups!", (sprintf "Error while parsing the file: %s." file))
 //            do! progress.AsyncClose()
     })
+
+    self.KeyDown.Add(fun e ->
+        match e.Key with
+        | Input.Key.Escape -> Async.CancelDefaultToken()
+        | _ -> ())
 
     let checkedOrUnchecked _ =
         cache <-
