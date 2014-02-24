@@ -64,7 +64,7 @@ let loadWindow() =
                 with _ ->
                     do! Async.Sleep 500
                     do! progress.AsyncClose()
-                    do! self.AsyncShowMessage("Error", (sprintf "Error while parsing the file: %s." file))
+                    do! self.AsyncShowMessage("uuups!", (sprintf "Error while parsing the file: %s." file))
             do! progress.AsyncClose()
     })
 
