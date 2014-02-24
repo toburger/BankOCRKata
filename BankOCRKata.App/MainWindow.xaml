@@ -29,8 +29,10 @@
                 </ListView.View>
             </ListView>
         </DockPanel>
-        <Controls:Tile x:Name="preview" IsHitTestVisible="False" Width="200" Height="200"
+        <Canvas x:Name="previewCanvas">
+            <Controls:Tile x:Name="preview" IsHitTestVisible="False" Width="200" Height="200"
                        VerticalContentAlignment="Top" Visibility="Collapsed" Title="preview">
-        </Controls:Tile>
+            </Controls:Tile>
+        </Canvas>
     </Grid>
 </Controls:MetroWindow>

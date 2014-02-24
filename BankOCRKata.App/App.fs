@@ -48,11 +48,16 @@ let loadWindow() =
         |> Async.Parallel
         |> Async.Ignore
 
-    self.DragEnter.Add(fun e -> 
-        e.Effects <- DragDropEffects.Copy
+    let setPosition (e: DragEventArgs) =
+        let pos = e.GetPosition(window.previewCanvas)
+        Canvas.SetLeft(window.preview, pos.X - (window.preview.Width / 2.))
+        Canvas.SetTop(window.preview, pos.Y - (window.preview.Height / 2.))
+
+    self.DragEnter.Add(fun e ->
         if e.Data.GetDataPresent(DataFormats.FileDrop) then 
             let file = (e.Data.GetData(DataFormats.FileDrop) :?> string []).[0]
             window.preview.Content <- null
+            setPosition e
             window.preview.Visibility <- Visibility.Visible
             async { 
                 let preview = Utils.readPreviewOfFile 11 file
@@ -63,6 +68,8 @@ let loadWindow() =
                                                                   FontFamily = Media.FontFamily("Consolas")))
             }
             |> Async.Start)
+
+    self.DragOver.Add(fun e -> setPosition e)
 
     self.DragLeave.Add(fun e -> window.preview.Visibility <- Visibility.Collapsed)
 
