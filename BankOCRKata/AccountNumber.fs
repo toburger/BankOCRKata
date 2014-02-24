@@ -23,36 +23,30 @@ type AccountNumber =
                                                   |> String.concat ", ")
         | Illegible ds -> sprintf "ILL %s" <| fmtDigits ds
         | Error ds -> sprintf "ERR %s" <| fmtDigits ds
+    member self.Digits =
+        match self with
+        | Valid ds
+        | Error ds
+        | Illegible ds
+        | Ambivalent(ds, _) -> ds
     interface System.IComparable with
         member self.CompareTo(other) =
             match other with
             | :? AccountNumber as other ->
                 match self, other with
-                | Valid ds1, Valid ds2
-                | Error ds1, Error ds2 ->
+                | Valid ds1, Valid ds2 ->
                     let number1 = ds1 |> List.map asNumber |> getNumber
                     let number2 = ds2 |> List.map asNumber |> getNumber
                     compare number1 number2
-                | Illegible ds1, Illegible ds2 -> compare ds1 ds2
-                | Ambivalent(ds1, dss1), Ambivalent(ds2, dss2) -> compare (ds1, dss1) (ds2, dss2)
-                | Valid _, Illegible _ -> -1
-                | Illegible _, Valid _ -> 0
-                | Illegible _, Error _ -> -1
-                | Error _, Illegible _ -> 0
-                | Error _, Ambivalent _ -> -1
-                | Ambivalent _, Error _ -> 0
-                | _, _ -> -1
+                | self, other ->
+                    compare self.Digits other.Digits
             | _ -> -1
     override self.Equals(other) =
         match other with
-        | :? AccountNumber as other -> false
+        | :? AccountNumber as other -> self.Digits = other.Digits
         | _ -> false
     override self.GetHashCode() =
-        match self with
-        | Valid ds
-        | Illegible ds
-        | Error ds -> hash ds
-        | Ambivalent(ds, dss) -> hash ds ^^^ hash dss
+        hash self.Digits
 
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module AccountNumber = 
