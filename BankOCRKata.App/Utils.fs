@@ -44,3 +44,12 @@ let readPreviewOfFile lineCount file =
     System.IO.File.ReadLines(file)
     |> Seq.truncate lineCount
     |> String.concat "\n"
+
+let memoize onAdd = 
+    let dict = System.Collections.Concurrent.ConcurrentDictionary<'key, 'value>(HashIdentity.Structural)
+    fun x -> dict.GetOrAdd(x, System.Func<_, _>(onAdd))
+
+let (|Value|Null|) (nullable: System.Nullable<_>) =
+    if nullable.HasValue
+    then Value (nullable.Value)
+    else Null

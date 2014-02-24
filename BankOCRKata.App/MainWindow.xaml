@@ -19,7 +19,10 @@
     </Controls:MetroWindow.Resources>
     <Grid>
         <DockPanel>
-            <Label DockPanel.Dock="Bottom" Content="Please drop a file onto the target above."/>
+            <DockPanel DockPanel.Dock="Bottom" Margin="5">
+                <CheckBox x:Name="cache" DockPanel.Dock="Right" Content="Cache results"/>
+                <TextBlock Text="Please drop a file onto the target above."/>
+            </DockPanel>
             <ListView x:Name="results" FontFamily="Consolas" AllowDrop="True">
                 <ListView.View>
                     <GridView>

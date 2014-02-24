@@ -33,16 +33,25 @@ type ProgressDialogController with
         then self.CloseAsync() |> Async.AwaitIAsyncResult |> Async.Ignore
         else async.Return()
 
+let mutable cache: bool = false
+
 let loadWindow() = 
     let window = MainWindow()
 
     let self = window.Root
     
-    let parse onAdd file = 
+    let parse onAdd file =
+
+        let parse = BankOCRKata.AccountNumber.parse
+        let parsememoized = Utils.memoize parse
+
         Utils.readSampleFile file
         |> Seq.map (fun (orig, s) -> 
-            async { 
-                let an = BankOCRKata.AccountNumber.parse s
+            async {
+                let an =
+                    if cache
+                    then parsememoized s
+                    else parse s
                 self.InvokeOnUI(fun _ -> onAdd ({ Original = orig; Parsed = an }))
             })
         |> Async.Parallel
@@ -92,6 +101,12 @@ let loadWindow() =
                     do! self.AsyncShowMessage("uuups!", (sprintf "Error while parsing the file: %s." file))
             do! progress.AsyncClose()
     })
+
+    window.cache.Checked.Add(fun _ ->
+        cache <-
+            match window.cache.IsChecked with
+            | Utils.Null -> false
+            | Utils.Value v -> v)
 
     self
 
