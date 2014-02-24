@@ -12,6 +12,9 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <Style x:Key="HeaderStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
+                <Setter Property="FontFamily" Value="{Binding FontFamily, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+            </Style>
         </ResourceDictionary>
     </Controls:MetroWindow.Resources>
     <Grid>
@@ -20,8 +23,8 @@
             <ListView x:Name="results" FontFamily="Consolas" AllowDrop="True">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Original}" Width="250"/>
-                        <GridViewColumn Header="Parsed" DisplayMemberBinding="{Binding Parsed}" Width="450"/>
+                        <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Original}" Width="250" HeaderContainerStyle="{StaticResource HeaderStyle}"/>
+                        <GridViewColumn Header="Parsed" DisplayMemberBinding="{Binding Parsed}" Width="450" HeaderContainerStyle="{StaticResource HeaderStyle}"/>
                     </GridView>
                 </ListView.View>
             </ListView>
