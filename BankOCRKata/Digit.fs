@@ -19,8 +19,16 @@ and internal Digits = Digit list
 [<CompilationRepresentation(CompilationRepresentationFlags.ModuleSuffix)>]
 module internal Digit = 
     let digitsTable : DigitsString = 
-        [ " _ | ||_|"; "     |  |"; " _  _||_ "; " _  _| _|"; "   |_|  |"; " _ |_  _|"; " _ |_ |_|"; " _   |  |"; 
-          " _ |_||_|"; " _ |_| _|" ]
+        [ " _ | ||_|"
+          "     |  |"
+          " _  _||_ "
+          " _  _| _|"
+          "   |_|  |"
+          " _ |_  _|"
+          " _ |_ |_|"
+          " _   |  |"
+          " _ |_||_|"
+          " _ |_| _|" ]
     
     let digitsTableReversed = 
         digitsTable
