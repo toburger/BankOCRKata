@@ -128,11 +128,15 @@ let loadWindow() =
             view.Refresh()
     })
 
-    window.cache.Checked.Add(fun _ ->
+    let checkedOrUnchecked _ =
         cache <-
             match window.cache.IsChecked with
             | Utils.Null -> false
-            | Utils.Value v -> v)
+            | Utils.Value v -> v
+
+    window.cache.Checked.Add(checkedOrUnchecked)
+
+    window.cache.Unchecked.Add(checkedOrUnchecked)
 
     self
 
