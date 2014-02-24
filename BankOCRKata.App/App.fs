@@ -125,7 +125,6 @@ let loadWindow() =
 //                    do! progress.AsyncClose()
                     do! self.AsyncShowMessage("uuups!", (sprintf "Error while parsing the file: %s." file))
 //            do! progress.AsyncClose()
-            view.Refresh()
     })
 
     let checkedOrUnchecked _ =
