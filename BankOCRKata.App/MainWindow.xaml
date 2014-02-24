@@ -12,9 +12,6 @@
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/Blue.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/Accents/BaseLight.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <Style x:Key="HeaderStyle" TargetType="GridViewColumnHeader" BasedOn="{StaticResource {x:Type GridViewColumnHeader}}">
-                <Setter Property="FontFamily" Value="{Binding FontFamily, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
-            </Style>
         </ResourceDictionary>
     </Controls:MetroWindow.Resources>
     <Grid>
@@ -23,14 +20,12 @@
                 <CheckBox x:Name="cache" DockPanel.Dock="Right" Content="Cache results"/>
                 <TextBlock Text="Please drop a file onto the target above."/>
             </DockPanel>
-            <ListView x:Name="results" FontFamily="Consolas" AllowDrop="True">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Original" DisplayMemberBinding="{Binding Original}" Width="250" HeaderContainerStyle="{StaticResource HeaderStyle}"/>
-                        <GridViewColumn Header="Parsed" DisplayMemberBinding="{Binding Parsed}" Width="450" HeaderContainerStyle="{StaticResource HeaderStyle}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <DataGrid x:Name="results" AllowDrop="True" AutoGenerateColumns="False">
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Original" Binding="{Binding Original}" FontFamily="Consolas" Width="250"/>
+                    <DataGridTextColumn Header="Original" Binding="{Binding Parsed}" FontFamily="Consolas" Width="450"/>
+                </DataGrid.Columns>
+            </DataGrid>
         </DockPanel>
         <Canvas x:Name="previewCanvas">
             <Controls:Tile x:Name="preview" IsHitTestVisible="False" Width="200" Height="200"

@@ -51,17 +51,19 @@ type ProgressDialogController with
         then self.CloseAsync() |> Async.AwaitIAsyncResult |> Async.Ignore
         else async.Return()
 
-let mutable cache: bool = false
+let mutable cache: bool = true
 
 let loadWindow() = 
     let window = MainWindow()
 
     let self = window.Root
 
+    window.cache.IsChecked <- Nullable(cache)
+
     let collection = ObservableCollection()
-    window.results.ItemsSource <- collection
+    ignore <| window.results.SetBinding(ListView.ItemsSourceProperty, Binding(Source = collection, IsAsync = true))
     let view = CollectionViewSource.GetDefaultView(window.results.ItemsSource) :?> CollectionView
-    view.SortDescriptions.Add(SortDescription());
+    view.SortDescriptions.Add(SortDescription())
     
     let parse onAdd file =
 
@@ -75,7 +77,7 @@ let loadWindow() =
                     if cache
                     then parsememoized s
                     else parse s
-                self.InvokeOnUI(fun _ -> onAdd ({ Original = orig; Parsed = an }))
+                onAdd { Original = orig; Parsed = an }
             })
         |> Async.Parallel
         |> Async.Ignore
@@ -87,7 +89,7 @@ let loadWindow() =
 
     self.DragEnter.Add(fun e ->
         if e.Data.GetDataPresent(DataFormats.FileDrop) then 
-            let file = (e.Data.GetData(DataFormats.FileDrop) :?> string []).[0]
+            let file = e.Data.GetData(DataFormats.FileDrop) :?> string [] |> Seq.head
             window.preview.Content <- null
             setPosition e
             window.preview.Visibility <- Visibility.Visible
@@ -111,18 +113,19 @@ let loadWindow() =
         if e.Data.GetDataPresent(DataFormats.FileDrop) then
             collection.Clear()
             let files = e.Data.GetData(DataFormats.FileDrop) :?> string []
-            let! progress = self.AsyncShowProgress("just a second!", "")
+//            let! progress = self.AsyncShowProgress("just a second!", "")
             for file in files do
-                try 
-                    progress.SetProgress(0.5)
-                    progress.SetMessage(sprintf "I'm parsing the file: %s" file)
-                    do! parse (fun res -> collection.Add(res) |> ignore) file
-                    do! Async.Sleep 500
+                try
+//                    progress.SetProgress(0.5)
+//                    progress.SetMessage(sprintf "I'm parsing the file: %s" file)
+                    do! parse (fun res -> self.InvokeOnUI(fun _ -> collection.Add res)) file
+//                    do! Async.Sleep 500
                 with _ ->
-                    do! Async.Sleep 500
-                    do! progress.AsyncClose()
+//                    do! Async.Sleep 500
+//                    do! progress.AsyncClose()
                     do! self.AsyncShowMessage("uuups!", (sprintf "Error while parsing the file: %s." file))
-            do! progress.AsyncClose()
+//            do! progress.AsyncClose()
+            view.Refresh()
     })
 
     window.cache.Checked.Add(fun _ ->
