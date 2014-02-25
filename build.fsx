@@ -21,6 +21,15 @@ Target "Clean" (fun _ ->
 Target "CleanDeploy" (fun _ ->
     CleanDir deployDir)
 
+let fakePrune dir =
+    !! (dir + "/**/*.pdb")
+    ++ (dir + "/**/*.xml")
+    |> DeleteFiles
+
+Target "Prune" (fun _ -> fakePrune buildDir)
+
+Target "PruneDeploy" (fun _ -> fakePrune deployDir)
+
 let fakeLibrary dir =
     !! "BankOCRKata/*.fsproj"
        |> MSBuildRelease dir "Build"
@@ -130,6 +139,7 @@ Target "Default" id
 
 // Deploy as Click once application
 "DeployWPF"
+==> "PruneDeploy"
 ==> "DeployClickOnce"
 
 // Create a ZIP file
