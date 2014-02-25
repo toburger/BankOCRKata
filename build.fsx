@@ -83,11 +83,11 @@ Target "DeployClickOnce" (fun _ ->
               Version = version }))
 
 Target "Zip" (fun _ ->
-    !! (buildDir + "/**/*.*")
+    !! (deployDirVersioned + "/**/*.*")
        -- "/**/*.zip"
        -- "/**/*.xml"
        -- "/**/*.pdb"
-       |> Zip buildDir (buildDir + "BankOCRKata.zip"))
+       |> Zip deployDirVersioned (sprintf "%s/BankOCRKata.%s.zip" deployDir version))
 
 Target "Default" id
 
@@ -110,10 +110,6 @@ Target "Default" id
 "BuildWPF"
 ==> "Default"
 
-// Create a ZIP file
-"Default"
-==> "Zip"
-
 "CleanDeploy"
 ==> "DeployLibrary"
 
@@ -126,5 +122,9 @@ Target "Default" id
 // Deploy as Click once application
 "DeployWPF"
 ==> "DeployClickOnce"
+
+// Create a ZIP file
+"DeployWPF"
+==> "Zip"
 
 RunTargetOrDefault "Default"
