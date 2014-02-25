@@ -48,8 +48,13 @@ Target "BuildWPF" (fun _ -> fakeWpf buildDir)
 
 Target "DeployWPF" (fun _ -> fakeWpf deployDirVersioned)
 
+Target "BuildTests" (fun _ ->
+    !! "BankOCRKata.Tests/*.fsproj"
+    |> MSBuildRelease buildDir "Build"
+    |> Log "Tests Project Output: ")
+
 Target "RunTests" (fun _ ->
-    !! (buildDir + "xunit.dll")
+    !! (buildDir + "BankOCRKata.Tests.dll")
        |> xUnit (fun p -> { p with Verbose = true
                                    WorkingDir = buildDir
                                    ShadowCopy = false
@@ -91,24 +96,28 @@ Target "Zip" (fun _ ->
 
 Target "Default" id
 
-// Build the Console Project
 "Clean"
 ==> "BuildLibrary"
+
+// Build the Console Project
+"BuildLibrary"
 ==> "BuildConsole"
 
 // Build the WPF Project
-"Clean"
-==> "BuildLibrary"
+"BuildLibrary"
 ==> "BuildWPF"
-
-// Run the unit tests
-"Clean"
-==> "BuildLibrary"
-==> "RunTests"
 
 // WPF is the default
 "BuildWPF"
 ==> "Default"
+
+// Build the Tests Project
+"BuildLibrary"
+==> "BuildTests"
+
+// Run Unit Tests
+"BuildTests"
+==> "RunTests"
 
 "CleanDeploy"
 ==> "DeployLibrary"
