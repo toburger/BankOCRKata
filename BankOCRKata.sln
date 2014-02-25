@@ -9,6 +9,8 @@ Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BankOCRKata.Console", "Bank
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BankOCRKata.App", "BankOCRKata.App\BankOCRKata.App.fsproj", "{405F3B5A-B2B2-4121-8937-50F7A430A2D8}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BankOCRKata.Tests", "BankOCRKata.Tests\BankOCRKata.Tests.fsproj", "{CC3BE17C-63BF-4EA4-AE44-0105C1641304}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,16 @@ Global
 		{405F3B5A-B2B2-4121-8937-50F7A430A2D8}.Release|Mixed Platforms.Build.0 = Release|x86
 		{405F3B5A-B2B2-4121-8937-50F7A430A2D8}.Release|x86.ActiveCfg = Release|x86
 		{405F3B5A-B2B2-4121-8937-50F7A430A2D8}.Release|x86.Build.0 = Release|x86
+		{CC3BE17C-63BF-4EA4-AE44-0105C1641304}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC3BE17C-63BF-4EA4-AE44-0105C1641304}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC3BE17C-63BF-4EA4-AE44-0105C1641304}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{CC3BE17C-63BF-4EA4-AE44-0105C1641304}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{CC3BE17C-63BF-4EA4-AE44-0105C1641304}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{CC3BE17C-63BF-4EA4-AE44-0105C1641304}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC3BE17C-63BF-4EA4-AE44-0105C1641304}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC3BE17C-63BF-4EA4-AE44-0105C1641304}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{CC3BE17C-63BF-4EA4-AE44-0105C1641304}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{CC3BE17C-63BF-4EA4-AE44-0105C1641304}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
