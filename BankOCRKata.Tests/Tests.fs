@@ -87,7 +87,7 @@ let ``Create Digits from number`` () =
 [<Theory>]
 [<InlineData(457508000, "457508000")>]
 [<InlineData(298749824, "290749824")>]
-[<InlineData(131231212, "ERR 131231212")>]
+[<InlineData(131231212, "131231212 ERR")>]
 let ``Parse legible AccountNumbers`` (input, expected) =
     parseToString (createDigits input)
     |> should equal expected

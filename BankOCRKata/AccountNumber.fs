@@ -21,8 +21,8 @@ type AccountNumber =
             sprintf "%O AMB [%s]" (fmtDigits ds) (dss
                                                   |> List.map (fmtDigits >> sprintf "'%s'")
                                                   |> String.concat ", ")
-        | Illegible ds -> sprintf "ILL %s" <| fmtDigits ds
-        | Error ds -> sprintf "ERR %s" <| fmtDigits ds
+        | Illegible ds -> sprintf "%s ILL" <| fmtDigits ds
+        | Error ds -> sprintf "%s ERR" <| fmtDigits ds
     member self.Digits =
         match self with
         | Valid ds
