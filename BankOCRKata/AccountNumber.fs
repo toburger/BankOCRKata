@@ -34,7 +34,9 @@ type AccountNumber =
             match other with
             | :? AccountNumber as other ->
                 match self, other with
-                | Valid ds1, Valid ds2 ->
+                | Valid ds1, Valid ds2
+                | Error ds1, Error ds2
+                | Ambivalent(ds1, _), Ambivalent(ds2, _) ->
                     let number1 = ds1 |> List.map asNumber |> getNumber
                     let number2 = ds2 |> List.map asNumber |> getNumber
                     compare number1 number2
