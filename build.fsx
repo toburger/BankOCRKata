@@ -57,31 +57,30 @@ Target "RunTests" (fun _ ->
                                    OutputDir = buildDir }))
 
 Target "DeployClickOnce" (fun _ ->
-    let mage = @"C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\mage.exe" // TODO
     let appManifest = sprintf "%s/%s.exe.manifest" deployDirVersioned appName
     let depManifest = sprintf "%s/%s.application" deployDir appName
 
-    MageRun({ MageParams.ApplicationFile = depManifest
-              MageParams.CertFile = Some(cert)
-              MageParams.CodeBase = None
-              MageParams.FromDirectory = deployDirVersioned
-              MageParams.IconFile = ""
-              MageParams.IconPath = ""
-              MageParams.IncludeProvider = None
-              MageParams.Install = Some(true)
-              MageParams.Manifest = appManifest
-              MageParams.Name = appName
-              MageParams.Password = None
-              MageParams.Processor = MageProcessor.X86
-              MageParams.ProjectFiles = []
-              MageParams.ProviderURL = ""
-              MageParams.Publisher = Some(publisher)
-              MageParams.SupportURL = None
-              MageParams.TmpCertFile = ""
-              MageParams.ToolsPath = @"C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\"
-              MageParams.TrustLevel = None
-              MageParams.UseManifest = None
-              MageParams.Version = version }))
+    MageRun({ ApplicationFile = depManifest
+              CertFile = Some(cert)
+              CodeBase = None
+              FromDirectory = deployDirVersioned
+              IconFile = ""
+              IconPath = ""
+              IncludeProvider = None
+              Install = Some(true)
+              Manifest = appManifest
+              Name = appName
+              Password = None
+              Processor = MageProcessor.X86
+              ProjectFiles = []
+              ProviderURL = ""
+              Publisher = Some(publisher)
+              SupportURL = None
+              TmpCertFile = ""
+              ToolsPath = @"C:\Program Files (x86)\Microsoft SDKs\Windows\v8.0A\bin\NETFX 4.0 Tools\" // TODO
+              TrustLevel = None
+              UseManifest = None
+              Version = version }))
 
 Target "Zip" (fun _ ->
     !! (buildDir + "/**/*.*")
