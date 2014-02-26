@@ -47,7 +47,7 @@
                 </i:Interaction.Triggers>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Original" Binding="{Binding Original}" FontFamily="Consolas" Width="250"/>
-                    <DataGridTextColumn Header="Original" Binding="{Binding Parsed}" FontFamily="Consolas" Width="450"/>
+                    <DataGridTextColumn Header="Parsed" Binding="{Binding Parsed}" FontFamily="Consolas" Width="260"/>
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
