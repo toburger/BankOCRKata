@@ -9,22 +9,25 @@
         mc:Ignorable="d"
         d:DesginHeight="500">
     <Grid>
-        <DockPanel Grid.RowSpan="2">
+        <DockPanel>
             <DockPanel DockPanel.Dock="Bottom" Margin="5">
                 <CheckBox IsChecked="{Binding CachedParsing}" DockPanel.Dock="Right" Content="Cache results"/>
                 <TextBlock Text="Please drop a file onto the target above."/>
             </DockPanel>
-            <DataGrid AllowDrop="True" AutoGenerateColumns="False"
+            <DataGrid x:Name="results"
+                      AllowDrop="True" AutoGenerateColumns="False"
                       ItemsSource="{Binding ParsedAccountNumbers}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="DragEnter">
                         <cal:ActionMessage MethodName="OnDragEnter">
                             <cal:Parameter Value="$eventArgs"/>
+                            <cal:Parameter Value="$source"/>
                         </cal:ActionMessage>
                     </i:EventTrigger>
                     <i:EventTrigger EventName="DragOver">
                         <cal:ActionMessage MethodName="OnDragOver">
                             <cal:Parameter Value="$eventArgs"/>
+                            <cal:Parameter Value="$source"/>
                         </cal:ActionMessage>
                     </i:EventTrigger>
                     <i:EventTrigger EventName="DragLeave">
@@ -44,9 +47,12 @@
                 </DataGrid.Columns>
             </DataGrid>
         </DockPanel>
-        <Canvas x:Name="previewCanvas" Grid.RowSpan="2">
-            <Controls:Tile x:Name="preview" IsHitTestVisible="False" Width="200" Height="200"
-                       VerticalContentAlignment="Top" Visibility="Collapsed" Title="preview">
+        <Canvas>
+            <Controls:Tile Canvas.Left="{Binding PreviewPosition.X}" Canvas.Top="{Binding PreviewPosition.Y}"
+                           IsHitTestVisible="False" Width="{Binding TileSize}" Height="{Binding TileSize}" Title="preview"
+                           VerticalContentAlignment="Top" Visibility="{Binding PreviewVisibility}">
+                <TextBlock Text="{Binding PreviewText}" FontFamily="Consolas" TextWrapping="NoWrap"
+                           Foreground="{Binding Foreground, Mode=OneWay, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:Tile}}}"/>
             </Controls:Tile>
         </Canvas>
     </Grid>

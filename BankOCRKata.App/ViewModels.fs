@@ -15,24 +15,49 @@ open System.Windows.Controls
 open System.Windows.Data
 
 [<Export(typeof<IShell>)>]
-type ShellViewModel [<ImportingConstructor>] (windowManager: IWindowManager) =
+type ShellViewModel [<ImportingConstructor>] (windowManager: IWindowManager) as self =
     inherit Screen()
+
+    let tileSize = 200.
+    let mutable previewText = null
+    let mutable previewVisibility = Visibility.Collapsed
+    let mutable previewPosition = Point(0., 0.)
     
-    let setPosition e = ()
+    let setPosition (e: DragEventArgs) (element) =
+        let pos = e.GetPosition element
+        let left = pos.X - (tileSize / 2.)
+        let top = pos.Y - (tileSize / 2.)
+        self.PreviewPosition <- Point(left, top)
 
     interface IShell
 
-    member val PreviewText: string = null with get, set
-    member val PreviewVisibility: Visibility = Visibility.Collapsed with get, set
-    member val PreviewPosition: Point = Point(0.0, 0.0) with get, set
+    member self.TileSize = tileSize
     member val ParsedAccountNumbers: BindableCollection<Result> = BindableCollection<Result>() with get, set
     member val CachedParsing: bool = true with get, set
 
-    member self.OnDragEnter (e: DragEventArgs) =
+    member self.PreviewText
+        with get() = previewText
+        and set(v) =
+            previewText <- v
+            self.NotifyOfPropertyChange <@ self.PreviewText @>
+
+    member self.PreviewVisibility
+        with get() = previewVisibility
+        and set(v) =
+            previewVisibility <- v
+            self.NotifyOfPropertyChange <@ self.PreviewVisibility @>
+
+    member self.PreviewPosition
+        with get() = previewPosition
+        and set(v) =
+            previewPosition <- v
+            self.NotifyOfPropertyChange <@ self.PreviewPosition @>
+
+    member self.OnDragEnter (e: DragEventArgs) (control: FrameworkElement) =
         if e.Data.GetDataPresent(DataFormats.FileDrop) then 
             let file = e.Data.GetData(DataFormats.FileDrop) :?> string [] |> Seq.head
             self.PreviewText <- null
-            setPosition e
+            setPosition e control
             self.PreviewVisibility <- Visibility.Visible
             async {
                 let preview = Utils.readPreviewOfFile 11 file
@@ -41,7 +66,7 @@ type ShellViewModel [<ImportingConstructor>] (windowManager: IWindowManager) =
             }
             |> Async.Start
 
-    member self.OnDragOver (e: DragEventArgs) = setPosition e
+    member self.OnDragOver (e: DragEventArgs) (control: FrameworkElement) = setPosition e control
 
     member self.OnDragLeave (e: RoutedEventArgs) = self.PreviewVisibility <- Visibility.Collapsed
 

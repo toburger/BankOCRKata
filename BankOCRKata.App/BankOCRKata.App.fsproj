@@ -55,6 +55,7 @@
     <Resource Include="ApplicationResources.xaml" />
     <Resource Include="ShellView.xaml" />
     <Compile Include="Utils.fs" />
+    <Compile Include="Caliburn.Micro.fs" />
     <Compile Include="Models.fs" />
     <Compile Include="Views.fs" />
     <Compile Include="ViewModels.fs" />
@@ -70,6 +71,14 @@
     <Reference Include="Accessibility" />
     <Reference Include="Caliburn.Micro">
       <HintPath>..\packages\Caliburn.Micro.1.5.2\lib\net45\Caliburn.Micro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FSharp.PowerPack">
+      <HintPath>..\packages\FSPowerPack.Core.Community.3.0.0.0\Lib\Net40\FSharp.PowerPack.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FSharp.PowerPack.Linq">
+      <HintPath>..\packages\FSPowerPack.Linq.Community.3.0.0.0\Lib\Net40\FSharp.PowerPack.Linq.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FSharpx.TypeProviders.Xaml">
