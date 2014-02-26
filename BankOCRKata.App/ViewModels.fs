@@ -16,7 +16,7 @@ open System.Windows.Data
 
 [<Export(typeof<IShell>)>]
 type ShellViewModel [<ImportingConstructor>] (windowManager: IWindowManager) as self =
-    inherit Screen()
+    inherit Screen(DisplayName = "Bank OCR")
 
     let tileSize = 200.
     let mutable previewText = null

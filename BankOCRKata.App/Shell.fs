@@ -38,8 +38,7 @@ type MetroWindowManager() =
                                      SizeToContent = SizeToContent.Manual,
                                      MinHeight = 150.,
                                      Width = 900.,
-                                     Height = 500.,
-                                     Title = "Bank OCR")
+                                     Height = 500.)
             resources |> Seq.iter window.Resources.MergedDictionaries.Add
             window.SetValue(View.IsGeneratedProperty, true)
             match self.InferOwnerOf window with
