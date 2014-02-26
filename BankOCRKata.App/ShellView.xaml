@@ -10,8 +10,13 @@
     <Grid>
         <DockPanel>
             <DockPanel DockPanel.Dock="Bottom" Margin="5">
-                <CheckBox IsChecked="{Binding CachedParsing}" DockPanel.Dock="Right" Content="Cache results"/>
-                <TextBlock Text="Please drop a file onto the target above."/>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Label>
+                        <TextBlock Text="{Binding ParsedAccountNumbers.Count, StringFormat=I\'ve parsed \{0\} account numbers so far.}"/>
+                    </Label>
+                    <CheckBox IsChecked="{Binding CachedParsing}" Content="Cache results"/>
+                </StackPanel>
+                <Label Content="Please drop a file onto the target above."/>
             </DockPanel>
             <DataGrid x:Name="results"
                       AllowDrop="True" AutoGenerateColumns="False"
