@@ -13,14 +13,14 @@ let publisher = "Tobias Burger"
 let cert = "./cert.pfx"
 
 let buildDir = "./build/"
-let deployDir = "./publish/"
-let deployDirVersioned = sprintf "./%s/%s/" deployDir version
+let publishDir = "./publish/"
+let publishDirVersioned = sprintf "./%s/%s/" publishDir version
 
 Target "Clean" (fun _ ->
     CleanDir buildDir)
 
-Target "CleanDeploy" (fun _ ->
-    CleanDir deployDir)
+Target "CleanPublish" (fun _ ->
+    CleanDir publishDir)
 
 let fakePrune dir =
     !! (dir + "/**/*.pdb")
@@ -29,7 +29,7 @@ let fakePrune dir =
 
 Target "Prune" (fun _ -> fakePrune buildDir)
 
-Target "PruneDeploy" (fun _ -> fakePrune deployDir)
+Target "PrunePublish" (fun _ -> fakePrune publishDir)
 
 let fakeLibrary dir =
     !! "BankOCRKata/*.fsproj"
@@ -38,7 +38,7 @@ let fakeLibrary dir =
 
 Target "BuildLibrary" (fun _ -> fakeLibrary buildDir)
 
-Target "DeployLibrary" (fun _ -> fakeLibrary deployDirVersioned)
+Target "PublishLibrary" (fun _ -> fakeLibrary publishDirVersioned)
 
 let fakeConsole dir =
     !! "BankOCRKata.Console/*.fsproj"
@@ -47,7 +47,7 @@ let fakeConsole dir =
 
 Target "BuildConsole" (fun _ -> fakeConsole buildDir)
 
-Target "DeployConsole" (fun _ -> fakeConsole deployDirVersioned)
+Target "PublishConsole" (fun _ -> fakeConsole publishDirVersioned)
     
 let fakeWpf dir =
     !! "BankOCRKata.App/*.fsproj"
@@ -56,7 +56,7 @@ let fakeWpf dir =
 
 Target "BuildWPF" (fun _ -> fakeWpf buildDir)
 
-Target "DeployWPF" (fun _ -> fakeWpf deployDirVersioned)
+Target "PublishWPF" (fun _ -> fakeWpf publishDirVersioned)
 
 Target "BuildTests" (fun _ ->
     !! "BankOCRKata.Tests/*.fsproj"
@@ -72,14 +72,14 @@ Target "RunTests" (fun _ ->
                                    XmlOutput = true
                                    OutputDir = buildDir }))
 
-Target "DeployClickOnce" (fun _ ->
-    let appManifest = sprintf "%s/%s.exe.manifest" deployDirVersioned appName
-    let depManifest = sprintf "%s/%s.application" deployDir appName
+Target "PublishClickOnce" (fun _ ->
+    let appManifest = sprintf "%s/%s.exe.manifest" publishDirVersioned appName
+    let depManifest = sprintf "%s/%s.application" publishDir appName
 
     MageRun({ ApplicationFile = depManifest
               CertFile = Some(cert)
               CodeBase = None
-              FromDirectory = deployDirVersioned
+              FromDirectory = publishDirVersioned
               IconFile = ""
               IconPath = ""
               IncludeProvider = None
@@ -99,11 +99,11 @@ Target "DeployClickOnce" (fun _ ->
               Version = version }))
 
 Target "Zip" (fun _ ->
-    !! (deployDirVersioned + "/**/*.*")
+    !! (publishDirVersioned + "/**/*.*")
        -- "/**/*.zip"
        -- "/**/*.xml"
        -- "/**/*.pdb"
-       |> Zip deployDirVersioned (sprintf "%s/BankOCRKata.%s.zip" deployDir version))
+       |> Zip publishDirVersioned (sprintf "%s/BankOCRKata.%s.zip" publishDir version))
 
 Target "Default" id
 
@@ -130,22 +130,22 @@ Target "Default" id
 "BuildTests"
 ==> "RunTests"
 
-"CleanDeploy"
-==> "DeployLibrary"
+"CleanPublish"
+==> "PublishLibrary"
 
-"DeployLibrary"
-==> "DeployConsole"
+"PublishLibrary"
+==> "PublishConsole"
 
-"DeployLibrary"
-==> "DeployWPF"
+"PublishLibrary"
+==> "PublishWPF"
 
-// Deploy as Click once application
-"DeployWPF"
-==> "PruneDeploy"
-==> "DeployClickOnce"
+// Publish as Click once application
+"PublishWPF"
+==> "PrunePublish"
+==> "PublishClickOnce"
 
 // Create a ZIP file
-"DeployWPF"
+"PublishWPF"
 ==> "Zip"
 
 RunTargetOrDefault "Default"
