@@ -3,6 +3,7 @@
 open System
 open Fake
 open Fake.AssemblyInfoFile
+open Fake.NuGet.Install
 
 RestorePackages()
 
@@ -63,6 +64,7 @@ Target "BuildTests" (fun _ ->
     |> Log "Tests Project Output: ")
 
 Target "RunTests" (fun _ ->
+    NugetInstall id "xunit.runners"
     !! (buildDir + "BankOCRKata.Tests.dll")
        |> xUnit (fun p -> { p with Verbose = true
                                    WorkingDir = buildDir
