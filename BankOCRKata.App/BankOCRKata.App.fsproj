@@ -55,7 +55,8 @@
     <Resource Include="ApplicationResources.xaml" />
     <Resource Include="ShellView.xaml" />
     <Compile Include="Utils.fs" />
-    <Compile Include="View.fs" />
+    <Compile Include="Models.fs" />
+    <Compile Include="Views.fs" />
     <Compile Include="ViewModels.fs" />
     <Compile Include="Shell.fs" />
     <Compile Include="App.fs" />
