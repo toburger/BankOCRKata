@@ -68,21 +68,40 @@ module UtilTests =
         |> Utils.checksum
         |> should equal expected
 
-[<Theory>]
-[<InlineData(0, " _ | ||_|")>]
-[<InlineData(1, "     |  |")>]
-[<InlineData(2, " _  _||_ ")>]
-[<InlineData(3, " _  _| _|")>]
-[<InlineData(6, " _ |_ |_|")>]
-[<InlineData(9, " _ |_| _|")>]
-let ``Create Digit from number`` (input, expected) =
-    newDigit input
-    |> should equal expected
+module Digit =
+    [<Theory>]
+    [<InlineData(0, " _ | ||_|")>]
+    [<InlineData(1, "     |  |")>]
+    [<InlineData(2, " _  _||_ ")>]
+    [<InlineData(3, " _  _| _|")>]
+    [<InlineData(6, " _ |_ |_|")>]
+    [<InlineData(9, " _ |_| _|")>]
+    let ``Create Digit from number`` (input, expected) =
+        newDigit input
+        |> should equal expected
 
-[<Fact>]
-let ``Create Digits from number`` () =
-    newDigits 12 |> should equal [ "     |  |"; " _  _||_ " ]
-    newDigits 94 |> should equal [ " _ |_| _|"; "   |_|  |" ]
+    let digitsFromNumber =
+        toTheoryData
+            [ 12, [ "     |  |"; " _  _||_ " ]
+              94, [ " _ |_| _|"; "   |_|  |" ] ]
+
+    [<Theory>]
+    [<PropertyData("digitsFromNumber")>]
+    let ``Create Digits from number`` (input, expected) =
+        newDigits input |> should equal expected
+
+    let digitAndAlternatives =
+        toTheoryData
+            [ newDigit 1<d> , [ 7 ]
+              newDigit 8<d>,  [ 0; 6; 9 ]
+              "     |   ",    [ 1 ]
+              " _ | | _|",    [ 0; 9 ] ]
+
+    [<Theory>]
+    [<PropertyData("digitAndAlternatives")>]
+    let ``Get nearest alternative Digts`` (input, expected) =
+        getNearest input
+        |> should equal expected
 
 [<Theory>]
 [<InlineData(457508000, "457508000")>]
