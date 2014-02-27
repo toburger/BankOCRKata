@@ -8,4 +8,7 @@ type App() =
     do Shell.AppBootstrapper() |> ignore
 
 [<STAThread>]
-(new App()).Run() |> ignore
+[<EntryPoint>]
+let main _ =
+    let app = App()
+    app.Run()
