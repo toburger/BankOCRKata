@@ -81,7 +81,11 @@ type ShellViewModel [<ImportingConstructor>] (windowManager: IWindowManager) as 
                 try
 //                    progress.SetProgress(0.5)
 //                    progress.SetMessage(sprintf "I'm parsing the file: %s" file)
-                    let! res = AccountNumberParser.parse self.CachedParsing (fun res -> Execute.BeginOnUIThread(fun _ -> self.ParsedAccountNumbers.Add res)) file
+                    let! res =
+                        AccountNumberParser.parse
+                            self.CachedParsing
+                            self.ParsedAccountNumbers.Add
+                            file
 //                    do! self.AsyncShowMessage("yeeehaw!", sprintf "%d Account numbers where parsed." res.Length)
 //                    do! Async.Sleep 500
                     ()
