@@ -37,3 +37,4 @@ module AccountNumberParser =
                 onAdd { Original = orig; Parsed = an }
             })
         |> Async.Parallel
+        |> Async.Ignore

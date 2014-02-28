@@ -76,23 +76,11 @@ type ShellViewModel [<ImportingConstructor>] (windowManager: IWindowManager) as 
         if e.Data.GetDataPresent(DataFormats.FileDrop) then
             self.ParsedAccountNumbers.Clear()
             let files = e.Data.GetData(DataFormats.FileDrop) :?> string []
-//            let! progress = self.AsyncShowProgress("just a second!", "")
             for file in files do
                 try
-//                    progress.SetProgress(0.5)
-//                    progress.SetMessage(sprintf "I'm parsing the file: %s" file)
-                    let! res =
-                        AccountNumberParser.parse
+                    do! AccountNumberParser.parse
                             self.CachedParsing
                             self.ParsedAccountNumbers.Add
                             file
-//                    do! self.AsyncShowMessage("yeeehaw!", sprintf "%d Account numbers where parsed." res.Length)
-//                    do! Async.Sleep 500
-                    ()
-                with _ ->
-                    ()
-//                    do! Async.Sleep 500
-//                    do! progress.AsyncClose()
-//                    do! self.AsyncShowMessage("uuups!", (sprintf "Error while parsing the file: %s." file))
-//            do! progress.AsyncClose()
+                with _ -> () // TODO: show message box
     }
