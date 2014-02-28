@@ -70,7 +70,7 @@ type ShellViewModel [<ImportingConstructor>] (windowManager: IWindowManager) as 
 
     member self.OnDragLeave (e: RoutedEventArgs) = self.PreviewVisibility <- Visibility.Collapsed
 
-    member self.OnDrop (e: DragEventArgs) = Async.StartImmediate <| async {
+    member self.OnDrop (e: DragEventArgs) = Async.Start <| async {
         self.PreviewVisibility <- Visibility.Collapsed
 
         if e.Data.GetDataPresent(DataFormats.FileDrop) then
