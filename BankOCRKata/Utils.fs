@@ -70,8 +70,9 @@ let cart =
 
 let flip f x y = f y x
 
-let getDiffCount xs ys = 
-    xs
-    |> List.zip ys
-    |> List.filter (fun (x, y) -> x <> y)
-    |> List.length
+let getDiffCount xs ys =
+    List.fold2 (fun state x y ->
+        if x <> y
+        then state + 1
+        else state
+    ) 0 xs ys
