@@ -99,7 +99,7 @@ module Digit =
 
     [<Theory>]
     [<PropertyData("digitAndAlternatives")>]
-    let ``Get nearest alternative Digts`` (input, expected) =
+    let ``Get nearest alternative Digits`` (input, expected) =
         getNearest input
         |> should equal expected
 
