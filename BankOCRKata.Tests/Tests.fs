@@ -7,7 +7,7 @@ open Xunit
 open Xunit.Extensions
 open FsUnit.Xunit
 
-/// Helfer-Funktion, um ein array<'a * 'b> in ein array<array<obj>> (oder obj[][]) umzuwandeln
+/// helper function to convert array<'a * 'b> into array<array<obj>> (or obj[][])
 let inline toTheoryData(seq: #seq<'a * 'b>): obj[][] =
     seq |> Seq.map (fun (a, b) -> [| box a; box b |]) |> Seq.toArray
 
