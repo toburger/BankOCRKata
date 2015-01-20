@@ -50,10 +50,15 @@ type MetroWindowManager() =
             window
         :> Window
 
-type AppBootstrapper() =
-    inherit Bootstrapper<IShell>()
+type AppBootstrapper() as self =
+    inherit BootstrapperBase()
+
+    do self.Initialize()
 
     [<DefaultValue>] val mutable private container: CompositionContainer
+
+    override self.OnStartup(sender, e) =
+        self.DisplayRootViewFor<IShell>()
 
     override self.Configure() =
         self.container <-

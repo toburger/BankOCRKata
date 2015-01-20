@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BankOCRKata", "BankOCRKata\BankOCRKata.fsproj", "{D05CB8F1-800F-45A6-BFDA-5DCFA15D6F7F}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BankOCRKata.App", "BankOCRKata.App\BankOCRKata.App.fsproj", "{405F3B5A-B2B2-4121-8937-50F7A430A2D8}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BankOCRKata.Tests", "BankOCRKata.Tests\BankOCRKata.Tests.fsproj", "{CC3BE17C-63BF-4EA4-AE44-0105C1641304}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{CA283435-D39B-4676-8D1F-94692E8E7280}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
