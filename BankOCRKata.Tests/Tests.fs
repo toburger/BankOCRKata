@@ -103,6 +103,40 @@ module Digit =
         getNearest input
         |> should equal expected
 
+    let alternativeNumbers =
+        toTheoryData
+            [ 1<d>, [ 7<d> ]
+              8<d>, [ 0<d>; 6<d>; 9<d> ]
+              2<d>, [ ] ]
+
+    [<Theory>]
+    [<PropertyData("alternativeNumbers")>]
+    let ``Get alternative Digits`` (input, expected) =
+        should equal (getAlternativeNumber input) expected
+
+    [<Fact>]
+    let ``Get alternative Digits and self`` () =
+        should equal (getAlternativeNumberAndSelf 1<d>) [ 1<d>; 7<d> ]
+        should equal (getAlternativeNumberAndSelf 8<d>) [ 8<d>; 0<d>; 6<d>; 9<d> ]
+
+    [<Fact>]
+    let ``Get alternative Numbers`` () =
+        should equal (getAlternativeNumbers 1) [[ 7<d> ]]
+        should equal (getAlternativeNumbers 8) [[ 0<d>; 6<d>; 9<d> ]]
+
+    [<Fact>]
+    let ``Get alternative Numbers and self`` () =
+        should equal (getAlternativeNumbersAndSelf 1) [[ 1<d>; 7<d> ]]
+        should equal (getAlternativeNumbersAndSelf 8) [[ 8<d>; 0<d>; 6<d>; 9<d> ]]
+        should equal (getAlternativeNumbersAndSelf 12) [[ 1<d>; 7<d> ]; [2<d>]]
+        should equal (getAlternativeNumbersAndSelf 28) [[ 2<d>]; [ 8<d>; 0<d>; 6<d>; 9<d> ]]
+
+    [<Fact>]
+    let ``Get possible combinations of digits`` () =
+        getAllPerms [ 1<d>; 2<d> ] |> Seq.toList |> should equal [[ 1<d>; 2<d> ]; [ 2<d>; 1<d> ]]
+        getAlternativeNumberAndSelf 1<d> |> getAllPerms |> Seq.toList |> should equal [[ 1<d>; 7<d> ]; [ 7<d>; 1<d> ]]
+        getAlternativeNumbersAndSelf 1 |> List.map (getAllPerms >> Seq.toList) |> List.collect id |> should equal [[ 1<d>; 7<d> ]; [ 7<d>; 1<d> ]]
+
 [<Theory>]
 [<InlineData(457508000, "457508000")>]
 [<InlineData(298749824, "290749824")>]
@@ -138,67 +172,67 @@ let ``Parse illegible AccountNumbers from Web Page sample`` () =
         |> should equal expected
 
 (*
-    Data from OCR Kata web page (http://codingdojo.org/cgi-bin/index.pl?KataBankOCR): 
+    Data from OCR Kata web page (http://codingdojo.org/cgi-bin/index.pl?KataBankOCR):
 
     use case 4
-                           
+
       |  |  |  |  |  |  |  |  |
       |  |  |  |  |  |  |  |  |
-                           
+
     => 711111111
-     _  _  _  _  _  _  _  _  _ 
+     _  _  _  _  _  _  _  _  _
       |  |  |  |  |  |  |  |  |
       |  |  |  |  |  |  |  |  |
-                           
+
     => 777777177
-     _  _  _  _  _  _  _  _  _ 
+     _  _  _  _  _  _  _  _  _
      _|| || || || || || || || |
     |_ |_||_||_||_||_||_||_||_|
-                           
+
     => 200800000
-     _  _  _  _  _  _  _  _  _ 
+     _  _  _  _  _  _  _  _  _
      _| _| _| _| _| _| _| _| _|
      _| _| _| _| _| _| _| _| _|
-                           
-    => 333393333 
-     _  _  _  _  _  _  _  _  _ 
+
+    => 333393333
+     _  _  _  _  _  _  _  _  _
     |_||_||_||_||_||_||_||_||_|
     |_||_||_||_||_||_||_||_||_|
-                           
+
     => 888888888 AMB ['888886888', '888888880', '888888988']
-     _  _  _  _  _  _  _  _  _ 
-    |_ |_ |_ |_ |_ |_ |_ |_ |_ 
+     _  _  _  _  _  _  _  _  _
+    |_ |_ |_ |_ |_ |_ |_ |_ |_
      _| _| _| _| _| _| _| _| _|
-                           
+
     => 555555555 AMB ['555655555', '559555555']
-     _  _  _  _  _  _  _  _  _ 
-    |_ |_ |_ |_ |_ |_ |_ |_ |_ 
+     _  _  _  _  _  _  _  _  _
+    |_ |_ |_ |_ |_ |_ |_ |_ |_
     |_||_||_||_||_||_||_||_||_|
-                           
+
     => 666666666 AMB ['666566666', '686666666']
-     _  _  _  _  _  _  _  _  _ 
+     _  _  _  _  _  _  _  _  _
     |_||_||_||_||_||_||_||_||_|
      _| _| _| _| _| _| _| _| _|
-                           
+
     => 999999999 AMB ['899999999', '993999999', '999959999']
-        _  _  _  _  _  _     _ 
-    |_||_|| || ||_   |  |  ||_ 
+        _  _  _  _  _  _     _
+    |_||_|| || ||_   |  |  ||_
       | _||_||_||_|  |  |  | _|
-                           
+
     => 490067715 AMB ['490067115', '490067719', '490867715']
-        _  _     _  _  _  _  _ 
+        _  _     _  _  _  _  _
      _| _| _||_||_ |_   ||_||_|
-      ||_  _|  | _||_|  ||_| _| 
-                           
+      ||_  _|  | _||_|  ||_| _|
+
     => 123456789
-     _     _  _  _  _  _  _    
+     _     _  _  _  _  _  _
     | || || || || || || ||_   |
     |_||_||_||_||_||_||_| _|  |
-                           
+
     => 000000051
-        _  _  _  _  _  _     _ 
-    |_||_|| ||_||_   |  |  | _ 
+        _  _  _  _  _  _     _
+    |_||_|| ||_||_   |  |  | _
       | _||_||_||_|  |  |  | _|
-                           
-    => 490867715 
+
+    => 490867715
 *)
