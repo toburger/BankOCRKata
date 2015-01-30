@@ -1,8 +1,13 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.22310.1
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{9897DA35-A005-4B81-AC9B-E28F9942C372}"
+	ProjectSection(SolutionItems) = preProject
+		paket.dependencies = paket.dependencies
+	EndProjectSection
+EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BankOCRKata", "BankOCRKata\BankOCRKata.fsproj", "{D05CB8F1-800F-45A6-BFDA-5DCFA15D6F7F}"
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "BankOCRKata.Console", "BankOCRKata.Console\BankOCRKata.Console.fsproj", "{A8B779BB-33B4-4D20-BD2C-7E8E8AF552FD}"
