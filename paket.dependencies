@@ -1,7 +1,4 @@
-source http://preview.nuget.org/ver3-ctp1
 source https://www.nuget.org/api/v2
-source https://www.nuget.org/api/v2
-source http://premium.websharper.com/nuget
 
 nuget Nuget.CommandLine 2.8.3
 nuget Caliburn.Micro 2.0.1
