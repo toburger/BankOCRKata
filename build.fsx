@@ -5,8 +5,6 @@ open Fake
 open Fake.AssemblyInfoFile
 open Fake.NuGet.Install
 
-RestorePackages()
-
 let version = "0.1.0.0"
 let appName = "BankOCRKata.App"
 let publisher = "Tobias Burger"
