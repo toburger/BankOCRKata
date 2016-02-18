@@ -3,6 +3,7 @@
 open System
 open Fake
 open Fake.AssemblyInfoFile
+open Fake.Testing
 
 let version = "0.1.0.0"
 let appName = "BankOCRKata.App"
@@ -62,11 +63,8 @@ Target "BuildTests" (fun _ ->
 
 Target "RunTests" (fun _ ->
     !! (buildDir + "BankOCRKata.Tests.dll")
-       |> xUnit (fun p -> { p with Verbose = true
-                                   WorkingDir = buildDir
-                                   ShadowCopy = false
-                                   XmlOutput = true
-                                   OutputDir = buildDir }))
+       |> xUnit (fun p -> { p with WorkingDir = Some buildDir
+                                   ShadowCopy = false }))
 
 Target "PublishClickOnce" (fun _ ->
     let appManifest = sprintf "%s/%s.exe.manifest" publishDirVersioned appName
