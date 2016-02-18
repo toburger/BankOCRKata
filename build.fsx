@@ -3,7 +3,6 @@
 open System
 open Fake
 open Fake.AssemblyInfoFile
-open Fake.NuGet.Install
 
 let version = "0.1.0.0"
 let appName = "BankOCRKata.App"
@@ -62,7 +61,6 @@ Target "BuildTests" (fun _ ->
     |> Log "Tests Project Output: ")
 
 Target "RunTests" (fun _ ->
-    NugetInstall id "xunit.runners"
     !! (buildDir + "BankOCRKata.Tests.dll")
        |> xUnit (fun p -> { p with Verbose = true
                                    WorkingDir = buildDir
