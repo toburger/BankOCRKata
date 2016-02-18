@@ -113,10 +113,6 @@ Target "Default" id
 "BuildLibrary"
 ==> "BuildWPF"
 
-// WPF is the default
-"BuildWPF"
-==> "Default"
-
 // Build the Tests Project
 "BuildLibrary"
 ==> "BuildTests"
@@ -142,5 +138,10 @@ Target "Default" id
 // Create a ZIP file
 "PublishWPF"
 ==> "Zip"
+
+// WPF is the default
+"BuildWPF"
+==> "RunTests"
+==> "Default"
 
 RunTargetOrDefault "Default"
