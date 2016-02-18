@@ -1,11 +1,19 @@
 source https://www.nuget.org/api/v2
 
 nuget Fake
-nuget Caliburn.Micro
 nuget FSharpx.TypeProviders.Xaml
 nuget FSPowerPack.Linq.Community
-nuget FsUnit.xUnit
-nuget MahApps.Metro
-nuget xunit ~> 1.0
-nuget xunit.extensions
-nuget xunit.runner.visualstudio
+
+group WPF
+    source https://www.nuget.org/api/v2
+    
+    nuget Caliburn.Micro
+    nuget MahApps.Metro
+
+group Tests
+    source https://www.nuget.org/api/v2
+
+    nuget FsUnit.xUnit
+    nuget xunit ~> 1.0
+    nuget xunit.extensions
+    nuget xunit.runner.visualstudio
