@@ -1,6 +1,6 @@
-language: csharp
+language: fsharp
 
 sudo: false  # use the new container-based Travis infrastructure
 
-script: 
-  - ./build.sh Default
+script:
+  - ./build.sh Mono

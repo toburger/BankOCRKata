@@ -100,7 +100,9 @@ Target "Zip" (fun _ ->
        -- "/**/*.pdb"
        |> Zip publishDirVersioned (sprintf "%s/BankOCRKata.%s.zip" publishDir version))
 
-Target "Default" id
+Target "Mono" DoNothing
+
+Target "Default" DoNothing
 
 "Clean"
 ==> "BuildLibrary"
@@ -143,5 +145,9 @@ Target "Default" id
 "BuildWPF"
 ==> "RunTests"
 ==> "Default"
+
+"BuildConsole"
+==> "RunTests"
+==> "Mono"
 
 RunTargetOrDefault "Default"
