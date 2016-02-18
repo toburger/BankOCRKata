@@ -46,7 +46,7 @@ let fakeConsole dir =
 Target "BuildConsole" (fun _ -> fakeConsole buildDir)
 
 Target "PublishConsole" (fun _ -> fakeConsole publishDirVersioned)
-    
+
 let fakeWpf dir =
     !! "BankOCRKata.App/*.fsproj"
        |> MSBuildRelease dir "Build"
@@ -78,6 +78,7 @@ Target "PublishClickOnce" (fun _ ->
               CertFile = Some(cert)
               CodeBase = None
               FromDirectory = publishDirVersioned
+              CertHash = None
               IconFile = ""
               IconPath = ""
               IncludeProvider = None

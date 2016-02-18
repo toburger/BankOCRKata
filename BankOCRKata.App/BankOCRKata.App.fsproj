@@ -122,16 +122,6 @@
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
-        <Reference Include="Microsoft.Xaml.Interactions">
-          <HintPath>..\packages\Caliburn.Micro\lib\win81\Microsoft.Xaml.Interactions.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="Microsoft.Xaml.Interactivity">
-          <HintPath>..\packages\Caliburn.Micro\lib\win81\Microsoft.Xaml.Interactivity.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
       </ItemGroup>
     </When>
     <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0')">
@@ -142,8 +132,6 @@
           <Paket>True</Paket>
         </Reference>
         <Reference Include="System.Windows.Interactivity">
-          <HintPath>..\packages\Caliburn.Micro\lib\net40\System.Windows.Interactivity.dll</HintPath>
-          <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
       </ItemGroup>
@@ -156,8 +144,6 @@
           <Paket>True</Paket>
         </Reference>
         <Reference Include="System.Windows.Interactivity">
-          <HintPath>..\packages\Caliburn.Micro\lib\net45\System.Windows.Interactivity.dll</HintPath>
-          <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
       </ItemGroup>
@@ -169,12 +155,10 @@
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
-        <Reference Include="System.Windows.Interactivity">
-          <HintPath>..\packages\Caliburn.Micro\lib\sl5\System.Windows.Interactivity.dll</HintPath>
-          <Private>True</Private>
+        <Reference Include="System.Windows.Controls">
           <Paket>True</Paket>
         </Reference>
-        <Reference Include="System.Windows.Controls">
+        <Reference Include="System.Windows.Interactivity">
           <Paket>True</Paket>
         </Reference>
       </ItemGroup>
@@ -192,8 +176,6 @@
           <Paket>True</Paket>
         </Reference>
         <Reference Include="System.Windows.Interactivity">
-          <HintPath>..\packages\Caliburn.Micro\lib\wp8\System.Windows.Interactivity.dll</HintPath>
-          <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
       </ItemGroup>
@@ -207,16 +189,6 @@
         </Reference>
         <Reference Include="Caliburn.Micro.Platform">
           <HintPath>..\packages\Caliburn.Micro\lib\wpa81\Caliburn.Micro.Platform.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="Microsoft.Xaml.Interactions">
-          <HintPath>..\packages\Caliburn.Micro\lib\wpa81\Microsoft.Xaml.Interactions.dll</HintPath>
-          <Private>True</Private>
-          <Paket>True</Paket>
-        </Reference>
-        <Reference Include="Microsoft.Xaml.Interactivity">
-          <HintPath>..\packages\Caliburn.Micro\lib\wpa81\Microsoft.Xaml.Interactivity.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>
@@ -262,7 +234,7 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETCore'">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETCore' And $(TargetFrameworkVersion) == 'v4.5'">
       <ItemGroup>
         <Reference Include="Callisto">
           <HintPath>..\packages\Callisto\lib\winrt45\Callisto.dll</HintPath>
@@ -415,7 +387,7 @@
     </When>
   </Choose>
   <Choose>
-    <When Condition="$(TargetFrameworkIdentifier) == '.NETCore'">
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETCore' And $(TargetFrameworkVersion) == 'v4.5'">
       <ItemGroup>
         <Reference Include="Windows.UI.Interactivity">
           <HintPath>..\packages\Windows.UI.Interactivity\lib\win8\Windows.UI.Interactivity.dll</HintPath>

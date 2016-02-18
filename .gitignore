@@ -157,3 +157,6 @@ $RECYCLE.BIN/
 
 # paket
 .paket/paket.exe
+
+# fake
+.fake
